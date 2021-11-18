@@ -13,7 +13,7 @@ FFT 是一种高效实现 DFT..." />
     <link rel="stylesheet" href="https://evrgardenviolet.github.io//styles/main.css">
     <!-- 代码渲染风格css -->
     
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/dracula.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/default.min.css">
     
     <!-- 代码高亮插件 -->
     <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
@@ -32,12 +32,13 @@ FFT 是一种高效实现 DFT..." />
     
     <style>
         .markdownIt-TOC {
+            margin-left: 28%;
             padding-left: 2px;
-            width: 100%;
+            width: 80%;
         }
 
         .markdownIt-TOC li {
-            padding-left: 2%;
+            padding-left: 8%;
         }
     </style>
     
@@ -146,6 +147,9 @@ FFT 是一种高效实现 DFT..." />
         
         
           
+        <li><a data-pjax href="https://evrgardenviolet.github.io//friends">友链</a></li>
+
+        
         </ul>
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
@@ -189,7 +193,7 @@ FFT 是一种高效实现 DFT..." />
     <link rel="stylesheet" href="https://evrgardenviolet.github.io//media/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://evrgardenviolet.github.io//styles/main.css">
     
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/dracula.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/default.min.css">
     
     <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/js/clipboard.min.js"></script>
@@ -250,6 +254,141 @@ FFT 是一种高效实现 DFT..." />
 
     <!--------------- 左侧菜单栏👇 ------------------------>
     
+    <div id=side>
+        <div class="r_m_div">
+            <a onclick="showAaplayer()"><i style="font-size: 20px;"><img
+                        src='https://evrgardenviolet.github.io//media/images/music.png' alt="音乐播放器" class="musicbtn"></i></a>
+        </div>
+        <div class="avatar-border">
+            <img src="https://evrgardenviolet.github.io//images/avatar.png?v=1637239473814" class="avatar">
+        </div>
+        <div class="sitename">Gridea</div>
+        <span class="description" data-text='["温故而知新"]'>&nbsp;</span>
+        <div class="siteinfocontainer">
+            <span class="siteinfo">文章</span>
+            <span class="siteinfo">标签</span>
+        </div>
+        <div class="siteinfocontainer">
+            <span class="siteinfo" id="siteinfo-postsnum"></span>
+            <span class="siteinfo">1</span>
+        </div>
+        
+        <div class="search">
+            <!-- <input type="text" class="search-input" placeholder="标题搜索(●'◡'●)" /> -->
+            <input type="text" class="search-input" placeholder="标题搜索 ⚆_⚆ つ♡">
+            <div class="search-results"></div>
+        </div>
+        
+    <div class="share-button">
+        <span></span>
+        
+        
+        
+        
+        
+        
+        
+        
+    </div>
+    <div id="qq" style="display:none"></div>
+    <!------------ 加载菜单按钮👇 ------------------------->
+    <div class="menucontainer">
+        
+        
+        <div class="mchocie description">
+            <a data-pjax href="/" class="menubutton" style="margin-right: 15px;">
+                <i><img class="icon menuicon" src="" alt="首页"></i>&nbsp;<span
+                    data-text="首页">首页</span>
+            </a>
+        </div>
+        
+        
+        
+        <div class="mchocie description">
+            <a data-pjax href="/archives" class="menubutton" style="margin-right: 15px;">
+                <i><img class="icon menuicon" src="" alt="归档"></i>&nbsp;<span
+                    data-text="归档">归档</span>
+            </a>
+        </div>
+        
+        
+        
+        <div class="mchocie description">
+            <a href="/tags" class="mchocie description" target="_blank" style="margin-right: 15px;">
+                <i><img class="icon menuicon" src="" alt="标签"></i>&nbsp;<span
+                    data-text="标签">标签</span>
+            </a>
+        </div>
+        
+        
+        
+        <div class="mchocie description">
+            <a data-pjax href="/post/about" class="menubutton" style="margin-right: 15px;">
+                <i><img class="icon menuicon" src="" alt="关于"></i>&nbsp;<span
+                    data-text="关于">关于</span>
+            </a>
+        </div>
+        
+        
+
+        
+        
+        
+        <div class="mchocie description">
+            <a data-pjax href="https://evrgardenviolet.github.io//friends" class="menubutton" style="margin-right: 15px;">
+                <i><img class="icon menuicon" src="" alt="友人帐"></i>&nbsp;<span data-text="友人帐">友人帐</span>
+            </a>
+        </div>
+        
+        <!--  -->
+    </div>
+    <!------------ 加载菜单按钮👆 ------------------------->
+    <hr>
+    <style>
+    .copyright {
+        font-size: 15px;
+        color: #d9d9d9;
+    }
+
+
+    @media screen and (min-width: 1200px) {
+        .foot {
+            width: 100%;
+            height: 130px;
+        }
+    }
+
+    @media screen and (max-width: 1200px) {
+        .foot {
+            display: none;
+        }
+    }
+</style>
+
+<body>
+    <div class="foot">
+        <div id="footinfo">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | Theme: <a
+                href="https://github.com/850552586/gridea-theme-fog">Fog</a>
+            <div>
+                
+            </div>
+            <div>
+                
+            </div>
+            <div class="copyright" style="color:white;text-align: center;">Copyright © 2020  备案号: 鄂ICP备...号
+            </div>
+        </div>
+
+
+
+    </div>
+</body>
+
+    </div>
+
+
+    <script src="https://evrgardenviolet.github.io//media/js/wordshow.js"></script>
+    
     <!--------------- 左侧菜单栏👆 ------------------------>
 
     <!----------------- 顶部菜单栏👇 ------------------------>
@@ -299,17 +438,17 @@ FFT 是一种高效实现 DFT..." />
     
     
     <script>
-        let shareChoice = false
+        let shareChoice = true
     </script>
     
     
     <script>
-        let donateChoice = false
+        let donateChoice = true
     </script>
     
     
     <script>
-        let searchChoice = false
+        let searchChoice = true
     </script>
     
     <script>let postsnum = 0;</script>
@@ -356,6 +495,8 @@ FFT 是一种高效实现 DFT..." />
         var icondict = new Array();
     </script>
     
+        
+    
     <!----------根据自定义配置设置图标信息👆---------->
 </body>
 
@@ -373,7 +514,7 @@ FFT 是一种高效实现 DFT..." />
     get();
 
     function get() {
-        var t = JSON.parse('');
+        var t = JSON.parse('[]');
         talkindex = t.length - 1;
         for (var i = 0; i <= t.length - 1; i++) {
             var d = {};
@@ -564,13 +705,13 @@ FFT 是一种高效实现 DFT..." />
                 shareInit();
             if (donateChoice)
                 donateInit();
-            if ("" == "default"&&!commentsHide) {
+            if ("default" == "default"&&!commentsHide) {
                 $("#comment").hide()
                 commentsHide = true
             }
             lazyload();
             codeinit();
-            if ("" == "twikoo") {
+            if ("default" == "twikoo") {
                 //twikoo头像更换
                 setTimeout(replaceAvatar, 3000);
                 setTimeout(replaceAvatar, 8000); //部分博主站点速度加载过慢，再添加一个延迟
@@ -777,11 +918,18 @@ menulist.eq(i).show();
 
             <!-- ----------------左侧菜单栏html 👇-------------------------------------->
             
-            <!--------------- 顶部菜单栏html👇--------->
             <div>
-                <div class="col-lg-3"></div>
+                <div id="tab1" class="tab">
+                    <div class="bars">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="close"></div>
+                </div>
+                <div class="col-md-1 col-lg-3"></div>
                 <!-- main标签，pjax渲染时加载以下内容👇 -->
-                <div id="main" class="col-xs-12 col-sm-12 col-md-12  col-lg-6 posttop" style="padding:0;">
+                <div id="main" class="col-xs-12 col-sm-12 col-md-12 col-lg-7" style="padding:0;">
                     <link rel="stylesheet" href="https://evrgardenviolet.github.io//media/css/font-awesome.css">
 
 <body>
@@ -1074,15 +1222,41 @@ void fft(Complex y[], int len, int on) {
             </div>
             <hr style="width: 80%;">
             
+            <div class="donateContainer">
+                <span class="donatebtn">赏</span>
+            </div>
+            <div class="donateContainer">
+                <img src="" alt="" class="donate">
+            </div>
+            
             <div class="postfooter">
                 <ul class="post-copyright">
-                    <li><strong>文章作者：</strong></li>
+                    <li><strong>文章作者：</strong>violet</li>
             <li><strong>原文链接：</strong>https://evrgardenviolet.github.io/post/fft/</li>
             <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用<i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA
                 许可协议。转载请注明出处！</li>
             </ul>
         </div>
         
+            <div class="shareContainer">
+                <div class="share" style="height:30px;background: white;">
+                    <a class="qq" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/qqs.png" alt=""></i></a>
+                    <a class="wechat" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/wechats.png" alt=""></i></a>
+                    <a class="weibo" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/weibos.png" alt=""></i></a>
+                    <a class="qzone" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/qzones.png" alt=""></i></a>
+                    <a class="douban" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/doubans.png" alt=""></i></a>
+                    <a class="facebook" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/facebooks.png" alt=""></i></a>
+                    <a class="twitter" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/twitter.png" alt=""></i></a>
+                </div>
+            </div>
+            
         <div id="otherpost">
             
             
@@ -1166,24 +1340,19 @@ void fft(Complex y[], int len, int on) {
                     <div id="comment" class="comment">
                         <div class="commentcontainer">
                             
+                                
+                            
                         </div>
                     </div>
                     <!---------------------------- 评论系统👆 ------------------------->
-
-                    <!-------------- 底部栏信息👇 -------------------->
-                    <div style="margin-top:5vh">
-                        
-                    </div>
-                    <!-------------- 底部栏信息👆 -------------------->
                 </div>
                 <!-- main标签，pjax渲染时加载以上内容👆 -->
-                <div class="col-md-2 col-lg-3">
-                </div>
+                <div class="col-md-1 col-lg-2"></div>
                 <div id="bg">
                 </div>
             </div>
-        <!--------------- 顶部菜单栏html👆--------->
-        
+            <!-- ----------------左侧菜单栏html 👆-------------------------------------->
+            
         </div>
         <!-- aplayer播放器加载👇 -->
             
@@ -1192,10 +1361,10 @@ void fft(Complex y[], int len, int on) {
     
 
     <!-- 背景图加载方式👇 -->
-    <div id="bgchoice" style="display: none">
+    <div id="bgchoice" style="display: none">link
                 </div>
                 
-                <div id="bgurl" style="display:none"></div>
+                <div id="bgurl" style="display:none">https://www.imageoss.com/images/2021/11/14/random755a345e28c13455.jpg</div>
                 
     <!-- 背景图加载方式👆 -->
 </body>
@@ -1219,6 +1388,16 @@ void fft(Complex y[], int len, int on) {
 </script>
 
 <!------------------ 加载live2d模型功能（看板娘）👇 ---------------->
+
+<script type="text/javascript">
+    var message_Path = '/live2d/'
+    var home_Path = document.getElementById("domainname").innerHTML + "/"; //此处修改为你的域名，必须带斜杠
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/js/live2d.js"></script>
+<script type="text/javascript" src="https://evrgardenviolet.github.io//media/live2d/js/message.js"></script>
+<script type="text/javascript">
+    loadlive2d("live2d", "https://evrgardenviolet.github.io//media/live2d/assets/tororo.model.json");
+</script>
 
 <!------------------ 加载live2d模型功能（看板娘）👆 ---------------->
 
@@ -1246,7 +1425,7 @@ void fft(Complex y[], int len, int on) {
 
 <!------------ 加载全局背景图功能👇（开始时没有写好，这功能有点鸡肋/(ㄒoㄒ)/~~） -->
 <script>
-    var bgchoice = ""
+    var bgchoice = "link"
     var bg = $('#bg');
     var bgurl = document.getElementById("bgurl").innerHTML;
     if (bgchoice == 'default')
@@ -1265,6 +1444,8 @@ void fft(Complex y[], int len, int on) {
 
 
 
+
+<script src="https://evrgardenviolet.github.io//media/js/index.js"></script>
 
 
 <script>

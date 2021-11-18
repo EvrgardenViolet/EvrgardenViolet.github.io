@@ -3227,3 +3227,51 @@ a {
     margin-bottom: 10px;
   }
 }
+
+      .posttitlewithoutimg {
+        color: #228be6;
+      }
+    
+      .sitename {
+        color: #fa5252;
+      }
+    
+        .describtion {
+          color: #d6336c;
+        }
+      
+        .menubutton {
+          color: #ae3ec9;
+        }
+
+        .menucontainer span::before,
+        .menucontainer span::after {
+          color:#ae3ec9;
+          content: attr(data-text);
+          position: absolute;
+          top: -0.5em;
+          left: 0;
+          width: 100%;
+          transition: 0.3s ease-out;
+        }
+
+        .menubutton:visited{
+          color: #ae3ec9;
+        }
+      
+        .posttitle {
+          color: #7950f2;
+        }
+      
+        #sitegotimeDate,#sitegotimes,#footinfo,#footinfo a{
+          color: #15aabf;
+        }
+      
+        .mobiledescribtion{
+          color: #15aabf;
+        }
+      
+        .navbar-inverse{
+          background-color: #40c057;
+        }
+      
