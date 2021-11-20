@@ -2,17 +2,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="description" content="树链剖分
-核心思想
-通过给树上的每一个点重新编号，使得我们可以让树上的任意一条路径转化为 O(log⁡n)O(\log n)O(logn) 段连续的区间。
-需要处理的问题：
+    <meta name="description" content="大家好，我是搬题人闲人，这里，来讲一下这道题的正解
+题目描述
+略
+难点
+这道题我和三强讨论过后决定评一个 提高加/省选 的难度，因为此题的思维很重要，想明白了，一下就好了，想不明白就死活做不出来。
 
-
-将树从x到y结点最短路径上所有节点的值都加上z
-
-
-求树从x到..." />
-    <meta name="keywords" content="数据结构,笔记" />
+首先是关于 f(x)f(x)f(x) 的..." />
+    <meta name="keywords" content="题解" />
     <link rel="stylesheet" href="https://evrgardenviolet.github.io//media/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://evrgardenviolet.github.io//styles/main.css">
     <!-- 代码渲染风格css -->
@@ -30,7 +27,7 @@
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
     <!-- 数学公式 -->
     
-    <title>树链剖分</title>
+    <title>lxxy题解</title>
 
     <!-- 大纲索引css调整 -->
     
@@ -1049,19 +1046,15 @@ menulist.eq(i).show();
         <div class="postshow postpadding" style="padding-bottom: 0;">
             
             <div class="postdetailimg">
-                <img src="https://www.imageoss.com/images/2021/11/20/Konachan.com---246116-animal-aqua_eyes-bicolored_eyes-bird-blonde_hair-book-braids-cheese_kang-drink-flowers-food-gray_hair-long_hair-lux_sibyl-short_hair-violet_evergarden06f0727aeeab43df.jpg" class="postimage" style="cursor:auto">
+                <img src="https://www.imageoss.com/images/2021/11/15/Konachan.com---329340-sample5bba570b0ff0f2cd.jpg" class="postimage" style="cursor:auto">
             </div>
             <div class="postinfo-detail">
                 <div class="postdate"><i class="fa fa-calendar"></i>2021-11-20</div>
-                <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 7 min read</div>
+                <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 4 min read</div>
                 <div class="posttag">
                     
-                    <a data-pjax href="https://evrgardenviolet.github.io/tag/f8Yzp6nPH/" class="postlink">
-                        <i class="fa fa-tag"></i> 数据结构
-                    </a>
-                    
-                    <a data-pjax href="https://evrgardenviolet.github.io/tag/VJkSoG8bm/" class="postlink">
-                        <i class="fa fa-tag"></i> 笔记
+                    <a data-pjax href="https://evrgardenviolet.github.io/tag/dmEsbd5rX/" class="postlink">
+                        <i class="fa fa-tag"></i> 题解
                     </a>
                     
                 </div>
@@ -1069,248 +1062,83 @@ menulist.eq(i).show();
             
         <div id="articlecontent">
             <div id="texttitle" style="text-align: center">
-                <h2 id="ptitle">树链剖分</h2>
+                <h2 id="ptitle">lxxy题解</h2>
                 <!-- id 将作为查询条件 -->
-                <div id="pl" style="display:none">https://evrgardenviolet.github.io/post/shu-lian-pou-fen/</div>
+                <div id="pl" style="display:none">https://evrgardenviolet.github.io/post/lxxy-ti-jie/</div>
                 <div id="rootaddr" style="display:none">https://evrgardenviolet.github.io/</div>
                 
             </div>
             <div class="text ">
-                <h1 id="树链剖分">树链剖分</h1>
-<h2 id="核心思想">核心思想</h2>
-<p>通过给树上的每一个点重新编号，使得我们可以让树上的任意一条路径转化为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span> 段连续的区间。</p>
-<h2 id="需要处理的问题">需要处理的问题：</h2>
-<ul>
-<li>
-<p>将树从x到y结点最短路径上所有节点的值都加上z</p>
-</li>
-<li>
-<p>求树从x到y结点最短路径上所有节点的值之和</p>
-</li>
-<li>
-<p>将以x为根节点的子树内所有节点值都加上z</p>
-</li>
-<li>
-<p>求以x为根节点的子树内所有节点值之和</p>
-</li>
-</ul>
-<h2 id="概念">概念</h2>
-<ul>
-<li>重儿子：对于每一个非叶子节点，它的儿子中 以那个儿子为根的子树节点数最大的儿子 为该节点的重儿子</li>
-<li>轻儿子：对于每一个非叶子节点，它的儿子中 非重儿子 的剩下所有儿子即为轻儿子</li>
-<li>叶子节点没有重儿子也没有轻儿子</li>
-<li>重边：一个父亲连接他的重儿子的边称为重边</li>
-<li>轻边：剩下的即为轻边</li>
-<li>重链：相邻重边连起来的 连接一条重儿子 的链叫重链</li>
-<li>对于叶子节点，若其为轻儿子，则有一条以自己为起点的长度为1的链 每一条重链以轻儿子为起点</li>
-</ul>
-<h2 id="如何对树进行拆分">如何对树进行拆分</h2>
-<p>先用 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>f</mi><mi>s</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">dfs1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">s</span><span class="mord">1</span></span></span></span> 找出轻重儿子等，然后用 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>f</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">dfs</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">s</span></span></span></span> 序遍历（ <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>f</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">dfs</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">s</span></span></span></span> 序 指 优先遍历重儿子）。</p>
-<h2 id="code">Code</h2>
-<pre><code class="language-cpp">#include &lt;cstdio&gt;
+                <p>大家好，我是搬题人闲人，这里，来讲一下这道题的正解</p>
+<h2 id="题目描述">题目描述</h2>
+<p>略</p>
+<h2 id="难点">难点</h2>
+<p>这道题我和三强讨论过后决定评一个 提高加/省选 的难度，因为此题的思维很重要，想明白了，一下就好了，想不明白就死活做不出来。</p>
+<ol>
+<li>首先是关于 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">f(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span></span></span></span> 的求法，为什么 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">f(x) = x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 可能好多人没有想懂，知道了也只是在打标时无意发现的（我是不会告诉你我就是这样做对的）。所以我在这里讲一下证明：<br>
+我们先来看 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mi>u</mi><mi>m</mi><mi>g</mi><mi>c</mi><mi>d</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">numgcd(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mord mathdefault">u</span><span class="mord mathdefault">m</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">c</span><span class="mord mathdefault">d</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span></span></span></span> 这个函数根据题目中的定义我们不难发现这其实是欧拉函数 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>φ</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\varphi(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">φ</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span></span></span></span> ，那么根据 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>φ</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\varphi(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">φ</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span></span></span></span> 的性质我们可以知道两条性质：<br>
+1： <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn><mo>∼</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">1 \sim x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∼</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 中与 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi></mrow><annotation encoding="application/x-tex">x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span> 的最大公约数为 1 的所有数的和等于 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>x</mi><mo>⋅</mo><mi>φ</mi><mo>(</mo><mi>x</mi><mo>)</mo><mi mathvariant="normal">/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">x \cdot \varphi(x) / 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.44445em;vertical-align:0em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">φ</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mord">/</span><span class="mord">2</span></span></span></span><br>
+2： 若 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>φ</mi><mo>(</mo><mi>a</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\varphi(a)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">φ</span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mclose">)</span></span></span></span> 与 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>φ</mi><mo>(</mo><mi>b</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\varphi(b)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">φ</span><span class="mopen">(</span><span class="mord mathdefault">b</span><span class="mclose">)</span></span></span></span> 互质，则 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>φ</mi><mo>(</mo><mi>a</mi><mo>⋅</mo><mi>b</mi><mo>)</mo><mo>=</mo><mi>φ</mi><mo>(</mo><mi>a</mi><mo>)</mo><mo>⋅</mo><mi>φ</mi><mo>(</mo><mi>b</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">\varphi(a \cdot b) = \varphi(a) \cdot \varphi(b)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">φ</span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">b</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">φ</span><span class="mopen">(</span><span class="mord mathdefault">a</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">φ</span><span class="mopen">(</span><span class="mord mathdefault">b</span><span class="mclose">)</span></span></span></span><br>
+显然，这一道题我们要用到的是第一条性质。<br>
+证明：<br>
+$ \because gcd(a, b) = gcd(a, a - b)$<br>
+$ \therefore $ 与 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi></mrow><annotation encoding="application/x-tex">a</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">a</span></span></span></span> 不互质的数 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>b</mi></mrow><annotation encoding="application/x-tex">b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span></span></span></span> 和 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mo>−</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a - b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.66666em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">b</span></span></span></span> 成对出现，平均值为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi><mi mathvariant="normal">/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">n / 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">n</span><span class="mord">/</span><span class="mord">2</span></span></span></span><br>
+故性质一成立。<br>
+证毕。<br>
+由此可以知道 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>s</mi><mi>u</mi><mi>m</mi><mi>g</mi><mi>c</mi><mi>d</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mi>x</mi><mo>⋅</mo><mi>φ</mi><mo>(</mo><mi>x</mi><mo>)</mo><mi mathvariant="normal">/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">sumgcd(x) = x \cdot \varphi(x) / 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">u</span><span class="mord mathdefault">m</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord mathdefault">c</span><span class="mord mathdefault">d</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.44445em;vertical-align:0em;"></span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">φ</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mord">/</span><span class="mord">2</span></span></span></span><br>
+又<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∵</mo><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mn>2</mn><mo>⋅</mo><mi>s</mi><mi>u</mi><mi>m</mi><mi>g</mi><mi>c</mi><mi>d</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow><mrow><mi>n</mi><mi>u</mi><mi>m</mi><mi>g</mi><mi>c</mi><mi>d</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">\because f(x) = \frac{2 \cdot sumgcd(x)}{numgcd(x)}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mrel amsrm">∵</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.53em;vertical-align:-0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mord mathdefault mtight">u</span><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">d</span><span class="mopen mtight">(</span><span class="mord mathdefault mtight">x</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mbin mtight">⋅</span><span class="mord mathdefault mtight">s</span><span class="mord mathdefault mtight">u</span><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight" style="margin-right:0.03588em;">g</span><span class="mord mathdefault mtight">c</span><span class="mord mathdefault mtight">d</span><span class="mopen mtight">(</span><span class="mord mathdefault mtight">x</span><span class="mclose mtight">)</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span><br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∴</mo><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mn>2</mn><mo>⋅</mo><mi>x</mi><mo>⋅</mo><mi>φ</mi><mo>(</mo><mi>x</mi><mo>)</mo><mi mathvariant="normal">/</mi><mn>2</mn></mrow><mrow><mi>φ</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow></mfrac><mo>=</mo><mi>x</mi></mrow><annotation encoding="application/x-tex">\therefore f(x) = \frac{2 \cdot x \cdot \varphi(x) / 2}{\varphi(x)} = x</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mrel amsrm">∴</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.53em;vertical-align:-0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.01em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">φ</span><span class="mopen mtight">(</span><span class="mord mathdefault mtight">x</span><span class="mclose mtight">)</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.485em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mbin mtight">⋅</span><span class="mord mathdefault mtight">x</span><span class="mbin mtight">⋅</span><span class="mord mathdefault mtight">φ</span><span class="mopen mtight">(</span><span class="mord mathdefault mtight">x</span><span class="mclose mtight">)</span><span class="mord mtight">/</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">x</span></span></span></span></li>
+<li>在解决了 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">f(x)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span></span></span></span> 的问题之后，我们还要考虑如何快速的求出 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup><mi>f</mi><mo>(</mo><mi>i</mi><msup><mo>)</mo><mi>k</mi></msup></mrow><annotation encoding="application/x-tex">\sum_{i = 1}^{n}f(i)^k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.148818em;vertical-align:-0.29971000000000003em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.804292em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.29971000000000003em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">i</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.849108em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span></span></span></span></span></span></span> 的值。这里我介绍一种泛用性较高的，也是做简单的方法，我们找出所有询问当中最大的一个 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.43056em;vertical-align:0em;"></span><span class="mord mathdefault">n</span></span></span></span> ，在计算这一组数据时就沿路记录其他的解的值，最后统一输出就可以了。</li>
+</ol>
+<p>最后附上代码：</p>
+<h2 id="ac-code">AC Code</h2>
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;cstdio&gt;
 #include &lt;cstring&gt;
-#include &lt;iostream&gt;
-#include &lt;algorithm&gt;
-
-#define ll long long
+#define  ll long long
+#define reg register
 
 using namespace std;
 
-const int N = 100010;
+const int N = 1000100, MOD = 998244353;
 
-struct Node
+ll T, k, n[N];
+ll ans[N];
+
+inline ll quick_power(ll a)
 {
-    int left, right;
-    ll add; // add -&gt; lazy tag
-    ll dat; // the information which you need to protect;
-}tree[4 * N + 5];
-
-int n, m, root, p;
-int weight[N],ver[N * 2], head[N], edge[2 * N], next_[N * 2], tot;
-int deep[N], id[N], new_weight[N], cnt;
-int son_size[N], top[N], fa[N], son[N]; //top -&gt; the top node of each line fa -&gt; the father node of each node
-// son -&gt; the heavy son of each node 
-
-
-void add(int x, int y)
-{
-    ver[tot] = y, next_[tot] = head[x], head[x] = tot++;
+   ll r = 1, base = a;
+   ll x = k;
+   while (x != 0){
+   	if (x &amp; 1 == 1)
+       {
+   		r *= base;
+   		r %= MOD;	
+   	}
+   	base *= base;
+   	base %= MOD;	
+   	x = x &gt;&gt; 1;
+   } 
+   return r % MOD;
 }
 
-void pushup(int u)
-{
-    tree[u].dat = tree[u &lt;&lt; 1].dat + tree[u &lt;&lt; 1 | 1].dat;
-    tree[u].dat %= p;
-}
-
-void pushdown(int u)
-{
-    if (tree[u].add)
-    {
-        tree[u &lt;&lt; 1].add += tree[u].add;
-        tree[u &lt;&lt; 1].add %= p;
-        tree[u &lt;&lt; 1].dat += tree[u].add * (tree[u &lt;&lt; 1].right - tree[u &lt;&lt; 1].left + 1);
-        tree[u &lt;&lt; 1].dat %= p;
-        tree[u &lt;&lt; 1 | 1].add += tree[u].add;
-        tree[u &lt;&lt; 1 | 1].add %= p;
-        tree[u &lt;&lt; 1 | 1].dat += tree[u].add * (tree[u &lt;&lt; 1 | 1].right - tree[u &lt;&lt; 1 | 1].left + 1);
-        tree[u &lt;&lt; 1 | 1].dat %= p;
-        tree[u].add = 0;
-    }
-}
-
-void build(int u, int l, int r)
-{
-	tree[u].left = l;
-    tree[u].right = r;
-    tree[u].add = 0;
-    if (l == r) 
-    {
-        tree[u].dat = new_weight[r];
-        return ;
-    }
-    
-    int mid = l + r &gt;&gt; 1;
-    build(u &lt;&lt; 1, l, mid);
-    build(u &lt;&lt; 1 | 1, mid + 1, r);
-    pushup(u);
-}
-
-
-
-void modify(int u, int l, int r, int k)
-{
-    if (tree[u].left &gt;= l &amp;&amp; tree[u].right &lt;= r)
-    {
-        tree[u].add += k;
-        tree[u].add %= p;
-        tree[u].dat += k * (tree[u].right - tree[u].left + 1);
-        tree[u].dat %= p;
-        return ;
-    }
-    pushdown(u);
-    int mid = tree[u].left + tree[u].right &gt;&gt; 1;
-    if (l &lt;= mid) modify(u &lt;&lt; 1, l, r, k);
-    if (r &gt; mid) modify(u &lt;&lt; 1 | 1, l, r, k);
-    pushup(u);
-}
-
-ll ask (int u, int l, int r)
-{
-    if (tree[u].left &gt;= l &amp;&amp; tree[u].right &lt;= r) return tree[u].dat;
-    pushdown(u);
-    int mid = tree[u].left + tree[u].right &gt;&gt; 1;
-    ll res = 0;
-    if (l &lt;= mid) res += ask(u &lt;&lt; 1, l, r), res %= p;
-    if (r &gt; mid) res += ask(u &lt;&lt; 1 | 1, l, r), res %= p;
-    return res;
-}
-
-void modify_path(int u, int v, int k)
-{
-    while(top[u] != top[v])
-    {
-        if (deep[top[u]] &lt; deep[top[v]]) swap(u, v);
-        modify(1, id[top[u]], id[u], k);
-        u = fa[top[u]];
-    }
-    if (deep[u] &lt; deep[v]) swap(u, v);
-    modify(1, id[v], id[u], k);
-}
-
-ll ask_path(int u, int v)
-{
-    ll res = 0;
-    while(top[u] != top[v])
-    {
-        if (deep[top[u]] &lt; deep[top[v]]) swap(u, v);
-        res += ask(1, id[top[u]], id[u]);
-        res %= p;
-        u = fa[top[u]];
-    }
-    if (deep[u] &lt; deep[v]) swap(u, v);
-    res += ask(1, id[v], id[u]);
-    return res % p;
-}
-
-void modify_tree(int u, int k)
-{
-    modify(1, id[u], id[u] + son_size[u] - 1, k);
-}
-
-ll ask_tree(int u)
-{
-    return ask(1, id[u], id[u] + son_size[u] - 1);
-}
-
-void dfs1(int u, int father, int depth)
-{
-    deep[u] = depth, fa[u] = father, son_size[u] = 1;
-    for (int i = head[u]; ~i; i = next_[i])
-    {
-        int j = ver[i];
-        if (j == father) continue;
-        dfs1(j, u, depth + 1);
-        son_size[u] += son_size[j];
-        if (son_size[son[u]] &lt; son_size[j]) son[u] = j;
-    }
-}
-
-void dfs2(int u, int t)
-{
-    id[u] = ++cnt, new_weight[cnt] = weight[u], top[u] = t;
-    if (!son[u]) return ;
-    dfs2(son[u], t);
-    for (int i = head[u]; ~i ; i = next_[i])
-    {
-        int j = ver[i];
-        if (j == fa[u] || j == son[u]) continue;
-        dfs2(j, j);
-    }
-}
 
 int main()
 {
-    scanf(&quot;%d%d%d%d&quot;, &amp;n, &amp;m, &amp;root, &amp;p);
-    for (int i = 1; i &lt;= n; i++) scanf(&quot;%d&quot;, &amp;weight[i]), weight[i] %= p;
-    memset(head, -1, sizeof head);
-    for (int i = 0; i &lt; n - 1; i++)
-    {
-        int a, b;
-        scanf(&quot;%d%d&quot;, &amp;a, &amp;b);
-        add(a, b);
-        add(b, a);
-    }
-    dfs1(root, -1, 1);
-    dfs2(root, root);
-    build(1, 1, cnt);
-    while(m--)
-    {
-        int op, u, v, k;
-        scanf(&quot;%d%d&quot;, &amp;op, &amp;u);
-        if (op == 1)
-        {
-            scanf(&quot;%d%d&quot;, &amp;v, &amp;k);
-            modify_path(u, v, k);
-        }
-        else if (op == 2)
-        {
-            scanf(&quot;%d&quot;, &amp;v);
-            printf(&quot;%lld\n&quot;, ask_path(u, v));
-        }
-        else if (op == 3)
-        {
-            scanf(&quot;%d&quot;, &amp;k);
-            modify_tree(u, k);
-        }
-        else 
-        {
-            printf(&quot;%lld\n&quot;, ask_tree(u));
-        }
-    }
-    return 0;
+   cin &gt;&gt;  T &gt;&gt; k;
+   ll Max = 0;
+   for (reg int i = 1; i &lt;= T; i++)
+   {
+       scanf(&quot;%d&quot;, &amp;n[i]);
+       if(Max &lt; n[i])
+       {
+           for (reg int j = Max + 1; j &lt;= n[i]; ++j) ans[j] = (ans[j - 1] + quick_power(j)) % MOD;
+           Max = n[i];
+       }
+       printf(&quot;%d\n&quot;, ans[n[i]]);
+   }
+   return 0;
 }
-
 </code></pre>
 
             </div>
@@ -1326,7 +1154,7 @@ int main()
             <div class="postfooter">
                 <ul class="post-copyright">
                     <li><strong>文章作者：</strong>violet</li>
-            <li><strong>原文链接：</strong>https://evrgardenviolet.github.io/post/shu-lian-pou-fen/</li>
+            <li><strong>原文链接：</strong>https://evrgardenviolet.github.io/post/lxxy-ti-jie/</li>
             <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用<i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA
                 许可协议。转载请注明出处！</li>
             </ul>
@@ -1353,29 +1181,29 @@ int main()
             
         <div id="otherpost">
             
-            <a  data-pjax class="prev-post-pc" href="https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p7441/"  style="color: black;">
+            <a  data-pjax class="prev-post-pc" href="https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p7814/"  style="color: black;">
                 <div id="ppcontainer">
                     
-                    <img src="https://www.imageoss.com/images/2021/11/15/Konachan.com---284381-sample92cfee17d665d32b.jpg" style="width: 100%;" class="opimg">
+                    <img src="https://www.imageoss.com/images/2021/11/15/Konachan.com---326573-sample2a2c478246e10c98.jpg" style="width: 100%;" class="opimg">
                     
-                    <h4 class="optitle">闲人の题解 P7441</h4>
+                    <h4 class="optitle">闲人の题解 P7814</h4>
                 </div>
             </a>
             <div class="prev-post">
-                上一篇 <a  data-pjax href="https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p7441/">闲人の题解 P7441</a>
+                上一篇 <a  data-pjax href="https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p7814/">闲人の题解 P7814</a>
             </div>
             
             
-            <a data-pjax class="next-post-pc" href="https://evrgardenviolet.github.io/post/fei-yong-liu/"  style="color: black;">
+            <a data-pjax class="next-post-pc" href="https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p1834/"  style="color: black;">
                 <div id="npcontainer">
                     
-                    <img src="https://www.imageoss.com/images/2021/11/14/186faed51ba2c844a2.jpg" style="width: 100%;" class="opimg">
+                    <img src="https://www.imageoss.com/images/2021/11/15/Konachan.com---334228-sample2e19bb8ea31214c5.jpg" style="width: 100%;" class="opimg">
                     
-                    <h4 class="optitle">费用流</h4>
+                    <h4 class="optitle">闲人の题解 P1834</h4>
                 </div>
             </a>
             <div class="next-post">
-                下一篇 <a  data-pjax href="https://evrgardenviolet.github.io/post/fei-yong-liu/">费用流</a>
+                下一篇 <a  data-pjax href="https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p1834/">闲人の题解 P1834</a>
             </div>
             
         </div>
@@ -1396,13 +1224,11 @@ int main()
 </script>
                     <div class="toc-container">
                         <ul class="markdownIt-TOC">
-<li><a href="#%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86">树链剖分</a>
+<li>
 <ul>
-<li><a href="#%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3">核心思想</a></li>
-<li><a href="#%E9%9C%80%E8%A6%81%E5%A4%84%E7%90%86%E7%9A%84%E9%97%AE%E9%A2%98">需要处理的问题：</a></li>
-<li><a href="#%E6%A6%82%E5%BF%B5">概念</a></li>
-<li><a href="#%E5%A6%82%E4%BD%95%E5%AF%B9%E6%A0%91%E8%BF%9B%E8%A1%8C%E6%8B%86%E5%88%86">如何对树进行拆分</a></li>
-<li><a href="#code">Code</a></li>
+<li><a href="#%E9%A2%98%E7%9B%AE%E6%8F%8F%E8%BF%B0">题目描述</a></li>
+<li><a href="#%E9%9A%BE%E7%82%B9">难点</a></li>
+<li><a href="#ac-code">AC Code</a></li>
 </ul>
 </li>
 </ul>

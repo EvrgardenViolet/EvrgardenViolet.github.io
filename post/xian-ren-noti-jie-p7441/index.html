@@ -2,23 +2,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/css/live2d.css">
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <meta name="description" content="说实话，当我看到这道题时还有点懵。
+但是你静下来就会发现其实是一道数学思维的题。
+我们可以把题抽象一下：
+
+有T组数据据。
+每一组数据有两个等差数列，公差分别为x，y；
+两个数列最大的一个数不大于K；
+
+一些小问题
+细心地同学已经发现，我好..." />
+    <meta name="keywords" content="题解,数学" />
     <link rel="stylesheet" href="https://evrgardenviolet.github.io//media/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://evrgardenviolet.github.io//styles/main.css">
-    <link rel="stylesheet" href="https://evrgardenviolet.github.io//media/css/font-awesome.css">
-    <title>violet</title>
+    <!-- 代码渲染风格css -->
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/default.min.css">
+    
+    <!-- 代码高亮插件 -->
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
+    <!-- 代码复制插件 -->
+    <script src="https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/js/clipboard.min.js"></script>
+    <!-- live2d插件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/css/live2d.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <!-- 数学公式 -->
+    
+    <title>闲人の题解 P7441</title>
+
+    <!-- 大纲索引css调整 -->
+    
+    <style>
+        .markdownIt-TOC {
+            margin-left: 28%;
+            padding-left: 2px;
+            width: 80%;
+        }
+
+        .markdownIt-TOC li {
+            padding-left: 8%;
+        }
+    </style>
+    
 </head>
 
-
 <body>
+    <div id="landlord">
+        <div class="message" style="opacity:0"></div>
+        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
+    </div>
+    <div id="domainname" style="display:none">https://evrgardenviolet.github.io/</div>
     <div id="content">
-        <div class="nav-large">
-            <div class="row">
-                <!--------------- pc端菜单栏👇 ---------------->
-                <div class="side"><head>
+        <div>
+            <!----------- 移动端导航栏👇 ----------------->
+            <div id="bar">
+                <head>
+  <!-- 引入Bootstrap核心样式文件 -->
+  <link rel="stylesheet" href="https://evrgardenviolet.github.io//media/css/bootstrap.min.css">
+</head>
+<style>
+  .navmobile {
+    z-index: 15;
+    max-height: 40vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  @media screen and (max-width: 1200px) {
+    .navbar {
+      max-width: 100vw;
+    }
+  }
+
+  @media screen and (max-width:1200px) and (min-width: 768px) {
+    @media (min-width: 768px) {
+      .navbar-nav {
+        float: right;
+        margin: 0;
+      }
+    }
+  }
+
+  @media screen and (max-width:768px) {
+    .mbapspan {
+      padding: 0;
+    }
+  }
+</style>
+<div class="pjaxloading"  onclick="pjaxloadingClose()">
+  <div class="loadingbackground"></div>
+  <div id="loading">
+    <div class="loading">
+    </div>
+  </div>
+</div>
+<nav class="navbar navbar-inverse navbar-fixed-top navmobile">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#barmenu"
+        aria-expanded="false" id="barbutton">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a data-pjax class="navbar-brand" href="https://evrgardenviolet.github.io/">violet&nbsp;&nbsp;|</a>
+      <span class="navbar-brand mbapspan"><i id="mbaplayer" class="fa fa-play-circle-o" aria-hidden="true"
+          style="font-size: 28px;top: 12px;position: absolute;" onclick="aplayerPlay();"></i></span>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="barmenu">
+      <ul class="nav navbar-nav">
+        
+        
+        <li>
+          <a data-pjax href="/">
+            首页
+          </a>
+        </li>
+        
+        
+        
+        <li>
+          <a data-pjax href="/archives">
+            归档
+          </a>
+        </li>
+        
+        
+        
+        <li><a href="/tags" target="_blank">
+            标签
+          </a></li>
+        
+        
+        
+        <li>
+          <a data-pjax href="/post/about">
+            关于
+          </a>
+        </li>
+        
+        
+        
+        
+          
+        <li><a data-pjax href="https://evrgardenviolet.github.io//friends">友链</a></li>
+
+        
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+
+  <!-- 引入jQuery核心js文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+  <script>
+    let btstate = false;
+    var bt = $("#barbutton");
+    var bm = $("#barmenu");
+    bt.click(function () {
+      dropdown();
+    })
+    function dropdown() {
+      console.log(btstate);
+      //下拉
+      if (btstate == false) {
+        bt.removeClass("collapsed");
+        bt.attr("aria-expanded", "true");
+        bm.attr("aria-expanded", "true")
+        bm.fadeIn(700);
+        btstate = true;
+      }
+      else {
+        bt.addClass("collapsed");
+        bt.attr("aria-expanded", "false");
+        bm.removeClass("in");
+        bm.hide();
+        bm.attr("aria-expanded", "false");
+        btstate = false;
+      }
+    }
+  </script> 
+            </div>
+            <!----------- 移动端导航栏👆 ----------------->
+
+            <!--------------- pc端菜单栏👇 ---------------->
+            <div class="side"><head>
     <link rel="stylesheet" href="https://evrgardenviolet.github.io//media/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://evrgardenviolet.github.io//styles/main.css">
     
@@ -851,144 +1026,11 @@ menulist.eq(i).show();
 
 
 </div>
-                <!--------------- pc端菜单栏👆 ---------------->
-               
-                <!----------- 移动端导航栏👇 ----------------->
-                <div class="tbar"> <head>
-  <!-- 引入Bootstrap核心样式文件 -->
-  <link rel="stylesheet" href="https://evrgardenviolet.github.io//media/css/bootstrap.min.css">
-</head>
-<style>
-  .navmobile {
-    z-index: 15;
-    max-height: 40vh;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
+            <!--------------- pc端菜单栏👆 ---------------->
 
-  @media screen and (max-width: 1200px) {
-    .navbar {
-      max-width: 100vw;
-    }
-  }
-
-  @media screen and (max-width:1200px) and (min-width: 768px) {
-    @media (min-width: 768px) {
-      .navbar-nav {
-        float: right;
-        margin: 0;
-      }
-    }
-  }
-
-  @media screen and (max-width:768px) {
-    .mbapspan {
-      padding: 0;
-    }
-  }
-</style>
-<div class="pjaxloading"  onclick="pjaxloadingClose()">
-  <div class="loadingbackground"></div>
-  <div id="loading">
-    <div class="loading">
-    </div>
-  </div>
-</div>
-<nav class="navbar navbar-inverse navbar-fixed-top navmobile">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#barmenu"
-        aria-expanded="false" id="barbutton">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a data-pjax class="navbar-brand" href="https://evrgardenviolet.github.io/">violet&nbsp;&nbsp;|</a>
-      <span class="navbar-brand mbapspan"><i id="mbaplayer" class="fa fa-play-circle-o" aria-hidden="true"
-          style="font-size: 28px;top: 12px;position: absolute;" onclick="aplayerPlay();"></i></span>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="barmenu">
-      <ul class="nav navbar-nav">
-        
-        
-        <li>
-          <a data-pjax href="/">
-            首页
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a data-pjax href="/archives">
-            归档
-          </a>
-        </li>
-        
-        
-        
-        <li><a href="/tags" target="_blank">
-            标签
-          </a></li>
-        
-        
-        
-        <li>
-          <a data-pjax href="/post/about">
-            关于
-          </a>
-        </li>
-        
-        
-        
-        
-          
-        <li><a data-pjax href="https://evrgardenviolet.github.io//friends">友链</a></li>
-
-        
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
-
-
-  <!-- 引入jQuery核心js文件 -->
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
-  <script>
-    let btstate = false;
-    var bt = $("#barbutton");
-    var bm = $("#barmenu");
-    bt.click(function () {
-      dropdown();
-    })
-    function dropdown() {
-      console.log(btstate);
-      //下拉
-      if (btstate == false) {
-        bt.removeClass("collapsed");
-        bt.attr("aria-expanded", "true");
-        bm.attr("aria-expanded", "true")
-        bm.fadeIn(700);
-        btstate = true;
-      }
-      else {
-        bt.addClass("collapsed");
-        bt.attr("aria-expanded", "false");
-        bm.removeClass("in");
-        bm.hide();
-        bm.attr("aria-expanded", "false");
-        btstate = false;
-      }
-    }
-  </script> </div>
-                <!----------- 移动端导航栏👆 ----------------->
-
-                <!-- ----------------左侧菜单栏html 👇-------------------------------------->
-                
+            <!-- ----------------左侧菜单栏html 👇-------------------------------------->
+            
+            <div>
                 <div id="tab1" class="tab">
                     <div class="bars">
                         <span></span>
@@ -998,82 +1040,315 @@ menulist.eq(i).show();
                     <div class="close"></div>
                 </div>
                 <div class="col-md-1 col-lg-3"></div>
-                    <div id="main" class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
-                        <div class="mobilebar">
-                            <img src="" alt="" class="plbg">
-<script>
-    var bgchoice = "link";
-    if(bgchoice=='default')
-        var plbgurl = ""
-    else  
-        var plbgurl = "https://www.imageoss.com/images/2021/11/14/random755a345e28c13455.jpg"
-    $(".plbg").attr("src",plbgurl);
-    $(".plbg").fadeIn(200);
-</script>
-                        </div>
-                        <script>
-                            $(".tag").each(function () {
-                                var rgb = '#' + Math.floor((Math.random()) * 0xffffff).toString(16);;
-                                $(this).css('color', rgb);
-                            });
-                        </script>
-                        <div class="tagsbackgroundleft"></div>
-                        <div class="tags-container">
-                            
-                            <img class="tagsimg" src="https://www.imageoss.com/images/2021/11/14/random755a345e28c13455.jpg" alt="">
-                            
-                        
-                            <a data-pjax class="tag" href="https://evrgardenviolet.github.io/tag/dmEsbd5rX/"># 题解</a>
-                            
-                            <a data-pjax class="tag" href="https://evrgardenviolet.github.io/tag/SlxSUNkkA/"># 网络流</a>
-                            
-                            <a data-pjax class="tag" href="https://evrgardenviolet.github.io/tag/yPRrgRVKs/"># 数学</a>
-                            
-                            <a data-pjax class="tag" href="https://evrgardenviolet.github.io/tag/f8Yzp6nPH/"># 数据结构</a>
-                            
-                            <a data-pjax class="tag" href="https://evrgardenviolet.github.io/tag/VJkSoG8bm/"># 笔记</a>
-                            
-                        </div>
-                    </div>
-                    <div class="col-lg-2"></div>
-                    <!-- ----------------左侧菜单栏html 👆-------------------------------------->
+                <!-- main标签，pjax渲染时加载以下内容👇 -->
+                <div id="main" class="col-xs-12 col-sm-12 col-md-12 col-lg-7" style="padding:0;">
+                    <link rel="stylesheet" href="https://evrgardenviolet.github.io//media/css/font-awesome.css">
+
+<body>
+    <div class="allcontent" id="postdetail">
+        <div class="postshow postpadding" style="padding-bottom: 0;">
+            
+            <div class="postdetailimg">
+                <img src="https://www.imageoss.com/images/2021/11/15/Konachan.com---284381-sample92cfee17d665d32b.jpg" class="postimage" style="cursor:auto">
+            </div>
+            <div class="postinfo-detail">
+                <div class="postdate"><i class="fa fa-calendar"></i>2021-11-20</div>
+                <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 5 min read</div>
+                <div class="posttag">
                     
-                    <!------------------ 顶部菜单栏html👇--------->
+                    <a data-pjax href="https://evrgardenviolet.github.io/tag/dmEsbd5rX/" class="postlink">
+                        <i class="fa fa-tag"></i> 题解
+                    </a>
                     
-                <!--------------- ---顶部菜单栏html👆--------->
-                <div class="col-xs-6 col-sm-3"></div>
+                    <a data-pjax href="https://evrgardenviolet.github.io/tag/yPRrgRVKs/" class="postlink">
+                        <i class="fa fa-tag"></i> 数学
+                    </a>
+                    
+                </div>
             </div>
             
-        </div></div>
-        <div id="bg">
+        <div id="articlecontent">
+            <div id="texttitle" style="text-align: center">
+                <h2 id="ptitle">闲人の题解 P7441</h2>
+                <!-- id 将作为查询条件 -->
+                <div id="pl" style="display:none">https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p7441/</div>
+                <div id="rootaddr" style="display:none">https://evrgardenviolet.github.io/</div>
+                
+            </div>
+            <div class="text ">
+                <p><s>说实话，当我看到这道题时还有点懵。</s><br>
+但是你静下来就会发现其实是一道数学思维的题。</p>
+<p>我们可以把题抽象一下：</p>
+<ul>
+<li>有T组数据据。</li>
+<li>每一组数据有两个等差数列，公差分别为x，y；</li>
+<li>两个数列最大的一个数不大于K；</li>
+</ul>
+<h2 id="一些小问题">一些小问题</h2>
+<p>细心地同学已经发现，我好像并没有考虑-K的情况。<br>
+why？<br>
+很简单</p>
+<p><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∵</mo><mn>0</mn><mo>≤</mo><msub><mi>C</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>E</mi><mi>i</mi></msub><mo>≤</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">∵0\le C _i  ,E _i\le K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mrel amsrm">∵</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.78041em;vertical-align:-0.13597em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">K</span></span></span></span><br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∴</mo><msub><mi>C</mi><mi>i</mi></msub><mo>+</mo><mo>(</mo><mo>−</mo><mi>K</mi><mo>)</mo><mo separator="true">,</mo><msub><mi>E</mi><mi>i</mi></msub><mo>+</mo><mo>(</mo><mo>−</mo><mi>K</mi><mo>)</mo><mo>&lt;</mo><mi>K</mi></mrow><annotation encoding="application/x-tex">∴C _i+(-K),E _i+(-K) &lt; K</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69224em;vertical-align:0em;"></span><span class="mrel amsrm">∴</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.07153em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord mathdefault" style="margin-right:0.07153em;">K</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.05764em;">E</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.05764em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">−</span><span class="mord mathdefault" style="margin-right:0.07153em;">K</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07153em;">K</span></span></span></span></p>
+<p>so我们可以不用考虑-K的情况</p>
+<h2 id="进入正解">进入正解</h2>
+<h3 id="round1">Round1</h3>
+<p>我们看看样例中的两个等差数列：<br>
+2 4 6 8 10<br>
+3 6 9<br>
+因为每一片叶子和每一片雪花只能用一遍<br>
+所以我们可以用其中一个数列中最小的数字去加另一个数列的最大数。<br>
+为什么这样做?<br>
+不难发现<br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>3</mn><mo>+</mo><mn>10</mn><mo>=</mo><mn>13</mn></mrow><annotation encoding="application/x-tex">3 + 10 = 13</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">3</span></span></span></span><br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>6</mn><mo>+</mo><mn>8</mn><mo>=</mo><mn>14</mn></mrow><annotation encoding="application/x-tex">6 + 8 = 14</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">6</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">8</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">4</span></span></span></span><br>
+<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>9</mn><mo>+</mo><mn>6</mn><mo>=</mo><mn>15</mn></mrow><annotation encoding="application/x-tex">9 + 6 = 15</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">9</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">6</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">5</span></span></span></span><br>
+这是一个递增的关系<br>
+有兴趣的小朋友可以证明一下为什么。</p>
+<p>如果加起来不足K怎么办？<br>
+那我们就用一个数列的第一个去加另一个数列的倒数第二个数。</p>
+<h3 id="round-2">Round 2</h3>
+<p>新的问题又出现：应该用哪一个数列的第一个数去加另一个数列的最后一个数呢？<br>
+再看一下样例：<br>
+2 4 6 8 10<br>
+3 6 9<br>
+可以发现我们最好情况下可以配对所有数字最少数列中的所有数，所以我们应该尽量把数字少的数列中的数字用完。</p>
+<h3 id="round-3">Round 3</h3>
+<p>那么思路就出来了：</p>
+<ol>
+<li>找出数列短的那一个。</li>
+<li>用这个数列的第一个去加另一数列的最后一个数，如果大于等于K，则证明这个数列中的数都能匹配，直接输出此数列的数字个数。</li>
+<li>如果2没有执行我们就用这个数列的第一个数去加另一个数列的倒数第二个数。</li>
+</ol>
+<h3 id="round-4-之亿点点问题">Round 4 之亿点点问题</h3>
+<p>看看第二个样例是什么<br>
+1<br>
+0 0 1<br>
+有“0”？？？？？？<br>
+没错，如果有“0”，就会比较麻烦。</p>
+<ol>
+<li>如果两个公差都是“0”，那必然输出“0”，没说的</li>
+<li>如果其中一个公差是“0”，我就还要判断另一个数列的最后一个数等不等于K，若是，就输出“1”。如不是，就只能输出“0”了</li>
+</ol>
+<h3 id="round-5">Round 5</h3>
+<p>最后还是附上代码（代码的思路有一点点不一样，它说用数列数字多的那一个数列的最后一个数依次加另一数列的1,2,3...个数）</p>
+<pre><code class="language-cpp">#include&lt;cstdio&gt;
+#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+#define ll long long
+
+using namespace std;
+
+int find_ans(ll x,ll y,ll k){
+	ll X_ = k / x, X = x, Y_2 = k % y;
+	ll Y_ = k / y, Y_last = k - Y_2;
+	for(ll i = Y_ ; i &gt;= 0; -- i){
+		if((Y_last + x) &gt;= k){
+			cout &lt;&lt; X_ &lt;&lt; endl;
+			return 0;
+		}
+		else {
+			x += X;
+			X_ --;
+		}
+	}
+	cout &lt;&lt; &quot;0&quot; &lt;&lt; endl;
+	return 0;
+}
+int main(){
+	ll n;
+	cin &gt;&gt; n;
+	for(ll i = 1; i &lt;= n; i ++){
+		ll a,b,c;
+		cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;
+		if(a == 0 || b == 0){
+			if(a == 0 &amp;&amp; b == 0){
+				cout &lt;&lt; &quot;0&quot; &lt;&lt; endl;
+			}
+			else if(a == 0 &amp;&amp; c % b == 0){
+				cout &lt;&lt; &quot;1&quot; &lt;&lt; endl;
+			}
+			else if(b == 0 &amp;&amp; c % a == 0){
+				cout &lt;&lt; &quot;1&quot; &lt;&lt; endl;
+			}
+			else cout &lt;&lt; &quot;0&quot; &lt;&lt; endl;
+		}
+		else{
+		 	if(a &gt;= b){
+			 	find_ans(a,b,c);
+			 }
+			else {find_ans(b,a,c);}
+		}
+	}
+	return  0;
+}
+</code></pre>
+<h2 id="后记">后记</h2>
+<p>这篇题解中有些话可能有点绕，需要好好思考一下。<br>
+因为是我第一篇发的题解（前面（一年前）发过只有代码的题解没有过） 也许有不足之处，还请随时指出。<br>
+感谢阅览！</p>
+<!-- more -->
+
+            </div>
+            <hr style="width: 80%;">
+            
+            <div class="donateContainer">
+                <span class="donatebtn">赏</span>
+            </div>
+            <div class="donateContainer">
+                <img src="" alt="" class="donate">
+            </div>
+            
+            <div class="postfooter">
+                <ul class="post-copyright">
+                    <li><strong>文章作者：</strong>violet</li>
+            <li><strong>原文链接：</strong>https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p7441/</li>
+            <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用<i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA
+                许可协议。转载请注明出处！</li>
+            </ul>
         </div>
-        <!-- 背景图加载方式👇 -->
-        <div id="bgchoice" style="display: none">link
-                    </div>
-                    
-                    <div id="bgurl" style="display:none">https://www.imageoss.com/images/2021/11/14/random755a345e28c13455.jpg</div>
-                       
-        </div>
-        <!-- 背景图加载方式👆 -->
-        <div id="landlord">
-            <div class="message" style="opacity:0"></div>
-            <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
-        </div>
-        <div id="domainname" style="display:none">https://evrgardenviolet.github.io/
+        
+            <div class="shareContainer">
+                <div class="share" style="height:30px;background: white;">
+                    <a class="qq" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/qqs.png" alt=""></i></a>
+                    <a class="wechat" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/wechats.png" alt=""></i></a>
+                    <a class="weibo" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/weibos.png" alt=""></i></a>
+                    <a class="qzone" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/qzones.png" alt=""></i></a>
+                    <a class="douban" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/doubans.png" alt=""></i></a>
+                    <a class="facebook" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/facebooks.png" alt=""></i></a>
+                    <a class="twitter" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/twitter.png" alt=""></i></a>
                 </div>
+            </div>
+            
+        <div id="otherpost">
+            
+            <a  data-pjax class="prev-post-pc" href="https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p2065/"  style="color: black;">
+                <div id="ppcontainer">
+                    
+                    <img src="https://www.imageoss.com/images/2021/11/15/Konachan.com---325363-sampleb402961f87d94878.jpg" style="width: 100%;" class="opimg">
+                    
+                    <h4 class="optitle">闲人の题解 P2065</h4>
+                </div>
+            </a>
+            <div class="prev-post">
+                上一篇 <a  data-pjax href="https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p2065/">闲人の题解 P2065</a>
+            </div>
+            
+            
+            <a data-pjax class="next-post-pc" href="https://evrgardenviolet.github.io/post/shu-lian-pou-fen/"  style="color: black;">
+                <div id="npcontainer">
+                    
+                    <img src="https://www.imageoss.com/images/2021/11/20/Konachan.com---246116-animal-aqua_eyes-bicolored_eyes-bird-blonde_hair-book-braids-cheese_kang-drink-flowers-food-gray_hair-long_hair-lux_sibyl-short_hair-violet_evergarden06f0727aeeab43df.jpg" style="width: 100%;" class="opimg">
+                    
+                    <h4 class="optitle">树链剖分</h4>
+                </div>
+            </a>
+            <div class="next-post">
+                下一篇 <a  data-pjax href="https://evrgardenviolet.github.io/post/shu-lian-pou-fen/">树链剖分</a>
+            </div>
+            
+        </div>
+    </div>
+    </div>
+    </div>
+    <!-- 弹窗 -->
+    <div id="myModal" class="modal">
+        <img class="modal-content" id="img01">
+    </div>
+</body>
+<script>
+    //文章阅读热度
+    var pl = $("#pl").html();
+    var rootaddr = $("#rootaddr").html();
+    pl = pl.replace(rootaddr, "");
+    $("#hotnum").attr('id', pl);
+</script>
+                    <div class="toc-container">
+                        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#%E4%B8%80%E4%BA%9B%E5%B0%8F%E9%97%AE%E9%A2%98">一些小问题</a></li>
+<li><a href="#%E8%BF%9B%E5%85%A5%E6%AD%A3%E8%A7%A3">进入正解</a>
+<ul>
+<li><a href="#round1">Round1</a></li>
+<li><a href="#round-2">Round 2</a></li>
+<li><a href="#round-3">Round 3</a></li>
+<li><a href="#round-4-%E4%B9%8B%E4%BA%BF%E7%82%B9%E7%82%B9%E9%97%AE%E9%A2%98">Round 4 之亿点点问题</a></li>
+<li><a href="#round-5">Round 5</a></li>
+</ul>
+</li>
+<li><a href="#%E5%90%8E%E8%AE%B0">后记</a></li>
+</ul>
+</li>
+</ul>
+
+                    </div>
+                    <div class="tog">
+                        <div class="toggleContainer">
+                            <div class="toggle">
+                                <i class="fas fa-angle-double-up"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!---------------------------- 评论系统👇 ------------------------->
+                    <div id="comment" class="comment">
+                        <div class="commentcontainer">
+                            
+                                
+                            
+                        </div>
+                    </div>
+                    <!---------------------------- 评论系统👆 ------------------------->
+                </div>
+                <!-- main标签，pjax渲染时加载以上内容👆 -->
+                <div class="col-md-1 col-lg-2"></div>
+                <div id="bg">
+                </div>
+            </div>
+            <!-- ----------------左侧菜单栏html 👆-------------------------------------->
+            
+        </div>
+        <!-- aplayer播放器加载👇 -->
+            
+        <!-- aplayer播放器加载👆 -->
+    </div>
+    
+
+    <!-- 背景图加载方式👇 -->
+    <div id="bgchoice" style="display: none">link
+                </div>
+                
+                <div id="bgurl" style="display:none">https://www.imageoss.com/images/2021/11/14/random755a345e28c13455.jpg</div>
+                
+    <!-- 背景图加载方式👆 -->
 </body>
 
-</html>
-<!-- 标签框随机色彩功能👇 -->
 <script>
-    $(".tag").each(function () {
-        var rgb = '#' + Math.floor((Math.random()) * 0xffffff).toString(16);;
-        $(this).css('color', rgb);
-    });
+    //初始化
+    //更换twikoo头像
+    setTimeout(replaceAvatar,1000);
+    setTimeout(replaceAvatar,2000);
+    setTimeout(replaceAvatar,8000);
+    // --------为每张图片添加懒加载（lazyload）标签-->懒加载功能 👇------------
+    lazyload();
+    //为文章内所有代码块添加代码复制功能 👇
+    codeinit();
+    // ------代码高亮显示功能-------------
+    hljs.initHighlightingOnLoad();
+    if (shareChoice)
+        shareInit();
+    if (donateChoice)
+        donateInit();
 </script>
-<!-- 标签框随机色彩功能👆 -->
 
-<!-------------------- live2d功能👇 --------------------------->
+<!------------------ 加载live2d模型功能（看板娘）👇 ---------------->
 
 <script type="text/javascript">
     var message_Path = '/live2d/'
@@ -1085,7 +1360,29 @@ menulist.eq(i).show();
     loadlive2d("live2d", "https://evrgardenviolet.github.io//media/live2d/assets/tororo.model.json");
 </script>
 
-<!-------------------- live2d功能👆 --------------------------->
+<!------------------ 加载live2d模型功能（看板娘）👆 ---------------->
+
+
+<!----------------------- 返回顶部按钮功能👇 --------------------->
+<script>
+    $(function () {
+        $('.toggleContainer').click(function () {
+            $('html,body').animate({
+                scrollTop: '0px'
+            }, 800);
+        });
+        $(window).scroll(function () {
+            var st = $(window).scrollTop();
+            if (st > 30) {
+                $(".toggleContainer").fadeIn(400);
+            } else {
+                $(".toggleContainer").fadeOut(100);
+            }
+        });
+    });
+</script>
+<!----------------------- 返回顶部按钮功能👆 --------------------->
+
 
 <!------------ 加载全局背景图功能👇（开始时没有写好，这功能有点鸡肋/(ㄒoㄒ)/~~） -->
 <script>
@@ -1106,4 +1403,29 @@ menulist.eq(i).show();
 </script>
 <!------------ 加载全局背景图功能👆（开始时没有写好，这功能有点鸡肋/(ㄒoㄒ)/~~） -->
 
+
+
+
 <script src="https://evrgardenviolet.github.io//media/js/index.js"></script>
+
+
+<script>
+    //加载后的事件同步（阅读量、移动端评论等
+    window.onload = function () {
+    //代码块高亮渲染
+    document.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightBlock(block);
+    });
+        getHotnum();
+        var sharepc = $(".share").eq(0).html();
+        $(".share").eq(1).html(sharepc);   //插件只会寻找一个分享标签渲染，所以需要手动添加到移动端
+        aplayerbtnInit();
+        $(".hljs").css({
+            "padding": "20px"
+        })
+    }
+</script>
+
+<!-- <script src="https://evrgardenviolet.github.io//media/js/av-min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/leancloud-storage@3.13.0/dist/av-min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/leancloud-storage@4.6.1/dist/av-live-query-min.js"></script> -->

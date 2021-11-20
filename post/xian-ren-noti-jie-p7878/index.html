@@ -2,23 +2,193 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/css/live2d.css">
-    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <meta name="description" content="Step1：题目简化&amp;粗略分析
+与我以往写的题解不同，这一篇题解的第一个部分不再是《题目描述》，而是《题目简化&amp;分析》，因为在我看来此题最大的障碍在于题目的理解。
+
+
+首先，让我们理解一下什么叫做“用同一账号连续发多个帖子”..." />
+    <meta name="keywords" content="题解" />
     <link rel="stylesheet" href="https://evrgardenviolet.github.io//media/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://evrgardenviolet.github.io//styles/main.css">
-    <link rel="stylesheet" href="https://evrgardenviolet.github.io//media/css/font-awesome.css">
-    <title>violet</title>
+    <!-- 代码渲染风格css -->
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/styles/default.min.css">
+    
+    <!-- 代码高亮插件 -->
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.1/build/highlight.min.js"></script>
+    <!-- 代码复制插件 -->
+    <script src="https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/js/clipboard.min.js"></script>
+    <!-- live2d插件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/850552586/ericamcdn@0.1/css/live2d.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
+    <!-- 数学公式 -->
+    
+    <title>闲人の题解 P7878</title>
+
+    <!-- 大纲索引css调整 -->
+    
+    <style>
+        .markdownIt-TOC {
+            margin-left: 28%;
+            padding-left: 2px;
+            width: 80%;
+        }
+
+        .markdownIt-TOC li {
+            padding-left: 8%;
+        }
+    </style>
+    
 </head>
 
-
 <body>
+    <div id="landlord">
+        <div class="message" style="opacity:0"></div>
+        <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
+    </div>
+    <div id="domainname" style="display:none">https://evrgardenviolet.github.io/</div>
     <div id="content">
-        <div class="nav-large">
-            <div class="row">
-                <!--------------- pc端菜单栏👇 ---------------->
-                <div class="side"><head>
+        <div>
+            <!----------- 移动端导航栏👇 ----------------->
+            <div id="bar">
+                <head>
+  <!-- 引入Bootstrap核心样式文件 -->
+  <link rel="stylesheet" href="https://evrgardenviolet.github.io//media/css/bootstrap.min.css">
+</head>
+<style>
+  .navmobile {
+    z-index: 15;
+    max-height: 40vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  @media screen and (max-width: 1200px) {
+    .navbar {
+      max-width: 100vw;
+    }
+  }
+
+  @media screen and (max-width:1200px) and (min-width: 768px) {
+    @media (min-width: 768px) {
+      .navbar-nav {
+        float: right;
+        margin: 0;
+      }
+    }
+  }
+
+  @media screen and (max-width:768px) {
+    .mbapspan {
+      padding: 0;
+    }
+  }
+</style>
+<div class="pjaxloading"  onclick="pjaxloadingClose()">
+  <div class="loadingbackground"></div>
+  <div id="loading">
+    <div class="loading">
+    </div>
+  </div>
+</div>
+<nav class="navbar navbar-inverse navbar-fixed-top navmobile">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#barmenu"
+        aria-expanded="false" id="barbutton">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a data-pjax class="navbar-brand" href="https://evrgardenviolet.github.io/">violet&nbsp;&nbsp;|</a>
+      <span class="navbar-brand mbapspan"><i id="mbaplayer" class="fa fa-play-circle-o" aria-hidden="true"
+          style="font-size: 28px;top: 12px;position: absolute;" onclick="aplayerPlay();"></i></span>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="barmenu">
+      <ul class="nav navbar-nav">
+        
+        
+        <li>
+          <a data-pjax href="/">
+            首页
+          </a>
+        </li>
+        
+        
+        
+        <li>
+          <a data-pjax href="/archives">
+            归档
+          </a>
+        </li>
+        
+        
+        
+        <li><a href="/tags" target="_blank">
+            标签
+          </a></li>
+        
+        
+        
+        <li>
+          <a data-pjax href="/post/about">
+            关于
+          </a>
+        </li>
+        
+        
+        
+        
+          
+        <li><a data-pjax href="https://evrgardenviolet.github.io//friends">友链</a></li>
+
+        
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+
+  <!-- 引入jQuery核心js文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+  <script>
+    let btstate = false;
+    var bt = $("#barbutton");
+    var bm = $("#barmenu");
+    bt.click(function () {
+      dropdown();
+    })
+    function dropdown() {
+      console.log(btstate);
+      //下拉
+      if (btstate == false) {
+        bt.removeClass("collapsed");
+        bt.attr("aria-expanded", "true");
+        bm.attr("aria-expanded", "true")
+        bm.fadeIn(700);
+        btstate = true;
+      }
+      else {
+        bt.addClass("collapsed");
+        bt.attr("aria-expanded", "false");
+        bm.removeClass("in");
+        bm.hide();
+        bm.attr("aria-expanded", "false");
+        btstate = false;
+      }
+    }
+  </script> 
+            </div>
+            <!----------- 移动端导航栏👆 ----------------->
+
+            <!--------------- pc端菜单栏👇 ---------------->
+            <div class="side"><head>
     <link rel="stylesheet" href="https://evrgardenviolet.github.io//media/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://evrgardenviolet.github.io//styles/main.css">
     
@@ -851,144 +1021,11 @@ menulist.eq(i).show();
 
 
 </div>
-                <!--------------- pc端菜单栏👆 ---------------->
-               
-                <!----------- 移动端导航栏👇 ----------------->
-                <div class="tbar"> <head>
-  <!-- 引入Bootstrap核心样式文件 -->
-  <link rel="stylesheet" href="https://evrgardenviolet.github.io//media/css/bootstrap.min.css">
-</head>
-<style>
-  .navmobile {
-    z-index: 15;
-    max-height: 40vh;
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
+            <!--------------- pc端菜单栏👆 ---------------->
 
-  @media screen and (max-width: 1200px) {
-    .navbar {
-      max-width: 100vw;
-    }
-  }
-
-  @media screen and (max-width:1200px) and (min-width: 768px) {
-    @media (min-width: 768px) {
-      .navbar-nav {
-        float: right;
-        margin: 0;
-      }
-    }
-  }
-
-  @media screen and (max-width:768px) {
-    .mbapspan {
-      padding: 0;
-    }
-  }
-</style>
-<div class="pjaxloading"  onclick="pjaxloadingClose()">
-  <div class="loadingbackground"></div>
-  <div id="loading">
-    <div class="loading">
-    </div>
-  </div>
-</div>
-<nav class="navbar navbar-inverse navbar-fixed-top navmobile">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#barmenu"
-        aria-expanded="false" id="barbutton">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a data-pjax class="navbar-brand" href="https://evrgardenviolet.github.io/">violet&nbsp;&nbsp;|</a>
-      <span class="navbar-brand mbapspan"><i id="mbaplayer" class="fa fa-play-circle-o" aria-hidden="true"
-          style="font-size: 28px;top: 12px;position: absolute;" onclick="aplayerPlay();"></i></span>
-    </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="barmenu">
-      <ul class="nav navbar-nav">
-        
-        
-        <li>
-          <a data-pjax href="/">
-            首页
-          </a>
-        </li>
-        
-        
-        
-        <li>
-          <a data-pjax href="/archives">
-            归档
-          </a>
-        </li>
-        
-        
-        
-        <li><a href="/tags" target="_blank">
-            标签
-          </a></li>
-        
-        
-        
-        <li>
-          <a data-pjax href="/post/about">
-            关于
-          </a>
-        </li>
-        
-        
-        
-        
-          
-        <li><a data-pjax href="https://evrgardenviolet.github.io//friends">友链</a></li>
-
-        
-        </ul>
-      </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-  </nav>
-
-
-  <!-- 引入jQuery核心js文件 -->
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
-  <script>
-    let btstate = false;
-    var bt = $("#barbutton");
-    var bm = $("#barmenu");
-    bt.click(function () {
-      dropdown();
-    })
-    function dropdown() {
-      console.log(btstate);
-      //下拉
-      if (btstate == false) {
-        bt.removeClass("collapsed");
-        bt.attr("aria-expanded", "true");
-        bm.attr("aria-expanded", "true")
-        bm.fadeIn(700);
-        btstate = true;
-      }
-      else {
-        bt.addClass("collapsed");
-        bt.attr("aria-expanded", "false");
-        bm.removeClass("in");
-        bm.hide();
-        bm.attr("aria-expanded", "false");
-        btstate = false;
-      }
-    }
-  </script> </div>
-                <!----------- 移动端导航栏👆 ----------------->
-
-                <!-- ----------------左侧菜单栏html 👇-------------------------------------->
-                
+            <!-- ----------------左侧菜单栏html 👇-------------------------------------->
+            
+            <div>
                 <div id="tab1" class="tab">
                     <div class="bars">
                         <span></span>
@@ -998,82 +1035,305 @@ menulist.eq(i).show();
                     <div class="close"></div>
                 </div>
                 <div class="col-md-1 col-lg-3"></div>
-                    <div id="main" class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
-                        <div class="mobilebar">
-                            <img src="" alt="" class="plbg">
-<script>
-    var bgchoice = "link";
-    if(bgchoice=='default')
-        var plbgurl = ""
-    else  
-        var plbgurl = "https://www.imageoss.com/images/2021/11/14/random755a345e28c13455.jpg"
-    $(".plbg").attr("src",plbgurl);
-    $(".plbg").fadeIn(200);
-</script>
-                        </div>
-                        <script>
-                            $(".tag").each(function () {
-                                var rgb = '#' + Math.floor((Math.random()) * 0xffffff).toString(16);;
-                                $(this).css('color', rgb);
-                            });
-                        </script>
-                        <div class="tagsbackgroundleft"></div>
-                        <div class="tags-container">
-                            
-                            <img class="tagsimg" src="https://www.imageoss.com/images/2021/11/14/random755a345e28c13455.jpg" alt="">
-                            
-                        
-                            <a data-pjax class="tag" href="https://evrgardenviolet.github.io/tag/dmEsbd5rX/"># 题解</a>
-                            
-                            <a data-pjax class="tag" href="https://evrgardenviolet.github.io/tag/SlxSUNkkA/"># 网络流</a>
-                            
-                            <a data-pjax class="tag" href="https://evrgardenviolet.github.io/tag/yPRrgRVKs/"># 数学</a>
-                            
-                            <a data-pjax class="tag" href="https://evrgardenviolet.github.io/tag/f8Yzp6nPH/"># 数据结构</a>
-                            
-                            <a data-pjax class="tag" href="https://evrgardenviolet.github.io/tag/VJkSoG8bm/"># 笔记</a>
-                            
-                        </div>
-                    </div>
-                    <div class="col-lg-2"></div>
-                    <!-- ----------------左侧菜单栏html 👆-------------------------------------->
+                <!-- main标签，pjax渲染时加载以下内容👇 -->
+                <div id="main" class="col-xs-12 col-sm-12 col-md-12 col-lg-7" style="padding:0;">
+                    <link rel="stylesheet" href="https://evrgardenviolet.github.io//media/css/font-awesome.css">
+
+<body>
+    <div class="allcontent" id="postdetail">
+        <div class="postshow postpadding" style="padding-bottom: 0;">
+            
+            <div class="postdetailimg">
+                <img src="https://www.imageoss.com/images/2021/11/15/Konachan.com---326257-sample9cd630d3eb35d59d.jpg" class="postimage" style="cursor:auto">
+            </div>
+            <div class="postinfo-detail">
+                <div class="postdate"><i class="fa fa-calendar"></i>2021-11-20</div>
+                <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 5 min read</div>
+                <div class="posttag">
                     
-                    <!------------------ 顶部菜单栏html👇--------->
+                    <a data-pjax href="https://evrgardenviolet.github.io/tag/dmEsbd5rX/" class="postlink">
+                        <i class="fa fa-tag"></i> 题解
+                    </a>
                     
-                <!--------------- ---顶部菜单栏html👆--------->
-                <div class="col-xs-6 col-sm-3"></div>
+                </div>
             </div>
             
-        </div></div>
-        <div id="bg">
+        <div id="articlecontent">
+            <div id="texttitle" style="text-align: center">
+                <h2 id="ptitle">闲人の题解 P7878</h2>
+                <!-- id 将作为查询条件 -->
+                <div id="pl" style="display:none">https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p7878/</div>
+                <div id="rootaddr" style="display:none">https://evrgardenviolet.github.io/</div>
+                
+            </div>
+            <div class="text ">
+                <h2 id="step1题目简化粗略分析">Step1：题目简化&amp;粗略分析</h2>
+<p>与我以往写的题解不同，这一篇题解的第一个部分不再是《题目描述》，而是《题目简化&amp;分析》，因为在我看来此题最大的障碍在于题目的理解。</p>
+<ol>
+<li>
+<p>首先，让我们理解一下什么叫做“用同一账号连续发多个帖子”。这其中有个很重要的一点，这会影响到我们后续的做题，注意此处的“连续”，设想一个问题，如果我发的所有帖子是不连续的（也就是说我在几个账号上循环发帖），那么就不存在同一账号上的“连续的多个帖子”了。</p>
+</li>
+<li>
+<p>其次，在理解了上一个问题之后再来看一下“该账号的安全指数会减小这两篇帖子安全指数的较小值”这句话做何理解（怎么感觉再讲阅读理解？）。其实很容易弄懂，这句话是指在同一账号中的连续帖子之间相邻连个帖子的最小值就是这个账号的风险，把这些值累加起来，第一篇帖子的安全系数减去累加起来的值就是这个账号的安全指数。</p>
+</li>
+</ol>
+<h2 id="step2题目详细分析">Step2：题目详细分析</h2>
+<p>在理解了第一部分的内容后就开始对题目进行一个较为深入的解析。</p>
+<h3 id="step2_1关于安全指数的来源">Step2_1：关于安全指数的来源</h3>
+<p>来源有二：其一，是本账号的第一篇帖子的安全指数。其二在后续发帖过程中所损失的安全指数。</p>
+<h3 id="step2_2如何使安全指数最大化">Step2_2：如何使安全指数最大化</h3>
+<ol>
+<li>
+<p>首先不难发现，总有一个账号的第一篇帖子是所有帖子的第一篇，应为所有帖子的的发帖顺序是固定的，只是在那个账号发事不固定的。</p>
+</li>
+<li>
+<p>其次，根据 Step1_1 中提到的：“如果我发的所有帖子是不连续的（也就是说我在几个账号上循环发帖），那么就不存在同一账号上的‘连续的多个帖子’。”可以得出所有会损失安全值得操作会在第二个账号发了一个帖子后结束。</p>
+</li>
+<li>
+<p>接下来，如果在用第二个账号发帖之后还有多余的账号，就可以用账号来发剩下帖子中价值最大的贴子以获取最大的收益。</p>
+</li>
+<li>
+<p>最后一点，也是本题的关键：确定第二个账号发的第一个帖子是哪一篇。解决了这个问题，此题就结束了。</p>
+</li>
+</ol>
+<h3 id="step2_3如何解决-step2_2_4-中所提到的问题">Step2_3：如何解决 Step2_2_4 中所提到的问题</h3>
+<p>设想一个问题，如果前面帖子损失的安全指数已经大于了所有账号第一篇帖子中的最小值，那么我肯定会舍弃这个帖子然后减小前面帖子的损失。</p>
+<p>这样的话我们就可以有效的解决 Step2_2_4 中的问题。</p>
+<h3 id="代码分析">代码分析</h3>
+<p>接下来，只讲我个人的做题方法</p>
+<ol>
+<li>
+<p>先对所有相邻的贴子求一遍最小值，在对最小值求前缀和预处理。</p>
+</li>
+<li>
+<p>对原来序列排序，找出 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span> 个最大的帖子（还有一个帖子是所有帖子中的第一个，在 Step2_2_1 中有所讲解，并且记录这些帖子中最靠前的是哪一篇，（记位置为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mi>i</mi><mi>r</mi><mi>s</mi><mi>t</mi><mi mathvariant="normal">_</mi><mi>w</mi><mi>h</mi><mi>e</mi><mi>r</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">first\_where</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.00444em;vertical-align:-0.31em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mord mathdefault">h</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span></span></span></span> ）。</p>
+</li>
+<li>
+<p>枚举 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span> 到 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>f</mi><mi>i</mi><mi>r</mi><mi>s</mi><mi>t</mi><mi mathvariant="normal">_</mi><mi>w</mi><mi>h</mi><mi>e</mi><mi>r</mi><mi>e</mi></mrow><annotation encoding="application/x-tex">first\_where</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.00444em;vertical-align:-0.31em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord" style="margin-right:0.02778em;">_</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mord mathdefault">h</span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">e</span></span></span></span> 的每一个帖子作为第二个账号的第一篇帖子所获得的最大收益，求出答案</p>
+</li>
+</ol>
+<h2 id="ac-code">AC code</h2>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+
+#define reg register
+#define ll long long
+
+using namespace std;
+
+int Time;
+int T;
+int n, k;
+
+struct Node{
+	ll size;
+	int where;
+}passage[100000 + 10];
+
+ll pre[100000 + 10];
+ll pre_[100000 + 10];
+ll d[100000 + 10];
+
+bool cmp(Node x, Node y) {return x.size &gt; y.size;}
+
+int main()
+{
+	scanf(&quot;%d&quot;, &amp;Time);
+	scanf(&quot;%d&quot;, &amp;T);
+	while(T--)
+	{
+		ll ans = 0, first = 0;
+		ll Max = -1e9;
+		ll value = 0;
+		int first_where = 1e9;
+		scanf(&quot;%d%d&quot;, &amp;n, &amp;k);
+		for (reg int i = 1; i &lt;= n; i++)
+		{
+			scanf(&quot;%d&quot;, &amp;passage[i].size);
+			passage[i].where = i;
+			d[i] = pre[i] = passage[i].size;
+		}
+		first = passage[1].size;
+		for (reg int i = 1; i &lt; n; i++) pre[i] = min(passage[i].size, passage[i + 1].size);
+		for (reg int i =1; i &lt; n; i++) pre[i] = pre[i] + pre[i - 1];
+		for (reg int i = 3; i &lt;= n; i++) pre_[i] = pre[i - 2];
+		sort(passage + 2, passage + n + 1, cmp);
+		for (reg int i = 2; i &lt;= k; i++) 
+			first_where = min(first_where, passage[i].where);
+		for (reg int i = 2; i &lt;= k; i++) value += passage[i].size;
+		Max = value + first - pre_[first_where];
+		for (reg int i = 2; i &lt; first_where; i++)
+			Max = max(Max, (first - pre_[i] + d[i] + value - passage[k].size));
+		printf(&quot;%lld\n&quot;, Max);
+	}
+	return 0;
+}
+</code></pre>
+<h2 id="后记">后记</h2>
+<p>此篇题解写于 2021CSP 之前，在这里祝所有同学能在接下来的学习中跟进一步，考试中 rp++ ！</p>
+
+            </div>
+            <hr style="width: 80%;">
+            
+            <div class="donateContainer">
+                <span class="donatebtn">赏</span>
+            </div>
+            <div class="donateContainer">
+                <img src="" alt="" class="donate">
+            </div>
+            
+            <div class="postfooter">
+                <ul class="post-copyright">
+                    <li><strong>文章作者：</strong>violet</li>
+            <li><strong>原文链接：</strong>https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p7878/</li>
+            <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用<i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA
+                许可协议。转载请注明出处！</li>
+            </ul>
         </div>
-        <!-- 背景图加载方式👇 -->
-        <div id="bgchoice" style="display: none">link
-                    </div>
-                    
-                    <div id="bgurl" style="display:none">https://www.imageoss.com/images/2021/11/14/random755a345e28c13455.jpg</div>
-                       
-        </div>
-        <!-- 背景图加载方式👆 -->
-        <div id="landlord">
-            <div class="message" style="opacity:0"></div>
-            <canvas id="live2d" width="240" height="250" class="live2d"></canvas>
-        </div>
-        <div id="domainname" style="display:none">https://evrgardenviolet.github.io/
+        
+            <div class="shareContainer">
+                <div class="share" style="height:30px;background: white;">
+                    <a class="qq" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/qqs.png" alt=""></i></a>
+                    <a class="wechat" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/wechats.png" alt=""></i></a>
+                    <a class="weibo" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/weibos.png" alt=""></i></a>
+                    <a class="qzone" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/qzones.png" alt=""></i></a>
+                    <a class="douban" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/doubans.png" alt=""></i></a>
+                    <a class="facebook" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/facebooks.png" alt=""></i></a>
+                    <a class="twitter" href=""><i><img class="shareicon"
+                                src="https://evrgardenviolet.github.io//media/images/twitter.png" alt=""></i></a>
                 </div>
+            </div>
+            
+        <div id="otherpost">
+            
+            <a  data-pjax class="prev-post-pc" href="https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p7919/"  style="color: black;">
+                <div id="ppcontainer">
+                    
+                    <img src="https://www.imageoss.com/images/2021/11/20/91a5bb5eed1052d1b5fed7a47449aa1a3165a0d0f0bd76c4.jpg" style="width: 100%;" class="opimg">
+                    
+                    <h4 class="optitle">闲人の题解P7919</h4>
+                </div>
+            </a>
+            <div class="prev-post">
+                上一篇 <a  data-pjax href="https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p7919/">闲人の题解P7919</a>
+            </div>
+            
+            
+            <a data-pjax class="next-post-pc" href="https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p7814/"  style="color: black;">
+                <div id="npcontainer">
+                    
+                    <img src="https://www.imageoss.com/images/2021/11/15/Konachan.com---326573-sample2a2c478246e10c98.jpg" style="width: 100%;" class="opimg">
+                    
+                    <h4 class="optitle">闲人の题解 P7814</h4>
+                </div>
+            </a>
+            <div class="next-post">
+                下一篇 <a  data-pjax href="https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p7814/">闲人の题解 P7814</a>
+            </div>
+            
+        </div>
+    </div>
+    </div>
+    </div>
+    <!-- 弹窗 -->
+    <div id="myModal" class="modal">
+        <img class="modal-content" id="img01">
+    </div>
+</body>
+<script>
+    //文章阅读热度
+    var pl = $("#pl").html();
+    var rootaddr = $("#rootaddr").html();
+    pl = pl.replace(rootaddr, "");
+    $("#hotnum").attr('id', pl);
+</script>
+                    <div class="toc-container">
+                        <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#step1%E9%A2%98%E7%9B%AE%E7%AE%80%E5%8C%96%E7%B2%97%E7%95%A5%E5%88%86%E6%9E%90">Step1：题目简化&amp;粗略分析</a></li>
+<li><a href="#step2%E9%A2%98%E7%9B%AE%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90">Step2：题目详细分析</a>
+<ul>
+<li><a href="#step2_1%E5%85%B3%E4%BA%8E%E5%AE%89%E5%85%A8%E6%8C%87%E6%95%B0%E7%9A%84%E6%9D%A5%E6%BA%90">Step2_1：关于安全指数的来源</a></li>
+<li><a href="#step2_2%E5%A6%82%E4%BD%95%E4%BD%BF%E5%AE%89%E5%85%A8%E6%8C%87%E6%95%B0%E6%9C%80%E5%A4%A7%E5%8C%96">Step2_2：如何使安全指数最大化</a></li>
+<li><a href="#step2_3%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3-step2_2_4-%E4%B8%AD%E6%89%80%E6%8F%90%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98">Step2_3：如何解决 Step2_2_4 中所提到的问题</a></li>
+<li><a href="#%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90">代码分析</a></li>
+</ul>
+</li>
+<li><a href="#ac-code">AC code</a></li>
+<li><a href="#%E5%90%8E%E8%AE%B0">后记</a></li>
+</ul>
+</li>
+</ul>
+
+                    </div>
+                    <div class="tog">
+                        <div class="toggleContainer">
+                            <div class="toggle">
+                                <i class="fas fa-angle-double-up"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!---------------------------- 评论系统👇 ------------------------->
+                    <div id="comment" class="comment">
+                        <div class="commentcontainer">
+                            
+                                
+                            
+                        </div>
+                    </div>
+                    <!---------------------------- 评论系统👆 ------------------------->
+                </div>
+                <!-- main标签，pjax渲染时加载以上内容👆 -->
+                <div class="col-md-1 col-lg-2"></div>
+                <div id="bg">
+                </div>
+            </div>
+            <!-- ----------------左侧菜单栏html 👆-------------------------------------->
+            
+        </div>
+        <!-- aplayer播放器加载👇 -->
+            
+        <!-- aplayer播放器加载👆 -->
+    </div>
+    
+
+    <!-- 背景图加载方式👇 -->
+    <div id="bgchoice" style="display: none">link
+                </div>
+                
+                <div id="bgurl" style="display:none">https://www.imageoss.com/images/2021/11/14/random755a345e28c13455.jpg</div>
+                
+    <!-- 背景图加载方式👆 -->
 </body>
 
-</html>
-<!-- 标签框随机色彩功能👇 -->
 <script>
-    $(".tag").each(function () {
-        var rgb = '#' + Math.floor((Math.random()) * 0xffffff).toString(16);;
-        $(this).css('color', rgb);
-    });
+    //初始化
+    //更换twikoo头像
+    setTimeout(replaceAvatar,1000);
+    setTimeout(replaceAvatar,2000);
+    setTimeout(replaceAvatar,8000);
+    // --------为每张图片添加懒加载（lazyload）标签-->懒加载功能 👇------------
+    lazyload();
+    //为文章内所有代码块添加代码复制功能 👇
+    codeinit();
+    // ------代码高亮显示功能-------------
+    hljs.initHighlightingOnLoad();
+    if (shareChoice)
+        shareInit();
+    if (donateChoice)
+        donateInit();
 </script>
-<!-- 标签框随机色彩功能👆 -->
 
-<!-------------------- live2d功能👇 --------------------------->
+<!------------------ 加载live2d模型功能（看板娘）👇 ---------------->
 
 <script type="text/javascript">
     var message_Path = '/live2d/'
@@ -1085,7 +1345,29 @@ menulist.eq(i).show();
     loadlive2d("live2d", "https://evrgardenviolet.github.io//media/live2d/assets/tororo.model.json");
 </script>
 
-<!-------------------- live2d功能👆 --------------------------->
+<!------------------ 加载live2d模型功能（看板娘）👆 ---------------->
+
+
+<!----------------------- 返回顶部按钮功能👇 --------------------->
+<script>
+    $(function () {
+        $('.toggleContainer').click(function () {
+            $('html,body').animate({
+                scrollTop: '0px'
+            }, 800);
+        });
+        $(window).scroll(function () {
+            var st = $(window).scrollTop();
+            if (st > 30) {
+                $(".toggleContainer").fadeIn(400);
+            } else {
+                $(".toggleContainer").fadeOut(100);
+            }
+        });
+    });
+</script>
+<!----------------------- 返回顶部按钮功能👆 --------------------->
+
 
 <!------------ 加载全局背景图功能👇（开始时没有写好，这功能有点鸡肋/(ㄒoㄒ)/~~） -->
 <script>
@@ -1106,4 +1388,29 @@ menulist.eq(i).show();
 </script>
 <!------------ 加载全局背景图功能👆（开始时没有写好，这功能有点鸡肋/(ㄒoㄒ)/~~） -->
 
+
+
+
 <script src="https://evrgardenviolet.github.io//media/js/index.js"></script>
+
+
+<script>
+    //加载后的事件同步（阅读量、移动端评论等
+    window.onload = function () {
+    //代码块高亮渲染
+    document.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightBlock(block);
+    });
+        getHotnum();
+        var sharepc = $(".share").eq(0).html();
+        $(".share").eq(1).html(sharepc);   //插件只会寻找一个分享标签渲染，所以需要手动添加到移动端
+        aplayerbtnInit();
+        $(".hljs").css({
+            "padding": "20px"
+        })
+    }
+</script>
+
+<!-- <script src="https://evrgardenviolet.github.io//media/js/av-min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/leancloud-storage@3.13.0/dist/av-min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/leancloud-storage@4.6.1/dist/av-live-query-min.js"></script> -->
