@@ -2,10 +2,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <meta name="description" content="一位来自四川的OIer
-就读于绵阳乐荟城附属中学
-" />
-    <meta name="keywords" content="" />
+    <meta name="description" content="树链剖分
+核心思想
+通过给树上的每一个点重新编号，使得我们可以让树上的任意一条路径转化为 O(log⁡n)O(\log n)O(logn) 段连续的区间。
+需要处理的问题：
+
+
+将树从x到y结点最短路径上所有节点的值都加上z
+
+
+求树从x到..." />
+    <meta name="keywords" content="数据结构,笔记" />
     <link rel="stylesheet" href="https://evrgardenviolet.github.io//media/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://evrgardenviolet.github.io//styles/main.css">
     <!-- 代码渲染风格css -->
@@ -23,7 +30,7 @@
     <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/5.13.1/css/all.min.css" rel="stylesheet">
     <!-- 数学公式 -->
     
-    <title>关于</title>
+    <title>树链剖分</title>
 
     <!-- 大纲索引css调整 -->
     
@@ -979,27 +986,269 @@ menulist.eq(i).show();
         <div class="postshow postpadding" style="padding-bottom: 0;">
             
             <div class="postdetailimg">
-                <img src="https://www.imageoss.com/images/2021/11/14/3720F149F2DA4E0F995D1AC80C3F8FA2-6-2198745304899e5fb.jpg" class="postimage" style="cursor:auto">
+                <img src="https://www.imageoss.com/images/2021/11/20/Konachan.com---246116-animal-aqua_eyes-bicolored_eyes-bird-blonde_hair-book-braids-cheese_kang-drink-flowers-food-gray_hair-long_hair-lux_sibyl-short_hair-violet_evergarden06f0727aeeab43df.jpg" class="postimage" style="cursor:auto">
             </div>
             <div class="postinfo-detail">
-                <div class="postdate"><i class="fa fa-calendar"></i>2019-01-25</div>
-                <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 1 min read</div>
+                <div class="postdate"><i class="fa fa-calendar"></i>2021-11-20</div>
+                <div class="poststatus postdate"><i class="fa fa-clock-o"></i> 7 min read</div>
                 <div class="posttag">
+                    
+                    <a data-pjax href="https://evrgardenviolet.github.io/tag/f8Yzp6nPH/" class="postlink">
+                        <i class="fa fa-tag"></i> 数据结构
+                    </a>
+                    
+                    <a data-pjax href="https://evrgardenviolet.github.io/tag/VJkSoG8bm/" class="postlink">
+                        <i class="fa fa-tag"></i> 笔记
+                    </a>
                     
                 </div>
             </div>
             
         <div id="articlecontent">
             <div id="texttitle" style="text-align: center">
-                <h2 id="ptitle">关于</h2>
+                <h2 id="ptitle">树链剖分</h2>
                 <!-- id 将作为查询条件 -->
-                <div id="pl" style="display:none">https://evrgardenviolet.github.io/post/about/</div>
+                <div id="pl" style="display:none">https://evrgardenviolet.github.io/post/shu-lian-pou-fen/</div>
                 <div id="rootaddr" style="display:none">https://evrgardenviolet.github.io/</div>
                 
             </div>
             <div class="text ">
-                <p>一位来自四川的OIer<br>
-就读于绵阳乐荟城附属中学</p>
+                <h1 id="树链剖分">树链剖分</h1>
+<h2 id="核心思想">核心思想</h2>
+<p>通过给树上的每一个点重新编号，使得我们可以让树上的任意一条路径转化为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span> 段连续的区间。</p>
+<h2 id="需要处理的问题">需要处理的问题：</h2>
+<ul>
+<li>
+<p>将树从x到y结点最短路径上所有节点的值都加上z</p>
+</li>
+<li>
+<p>求树从x到y结点最短路径上所有节点的值之和</p>
+</li>
+<li>
+<p>将以x为根节点的子树内所有节点值都加上z</p>
+</li>
+<li>
+<p>求以x为根节点的子树内所有节点值之和</p>
+</li>
+</ul>
+<h2 id="概念">概念</h2>
+<ul>
+<li>重儿子：对于每一个非叶子节点，它的儿子中 以那个儿子为根的子树节点数最大的儿子 为该节点的重儿子</li>
+<li>轻儿子：对于每一个非叶子节点，它的儿子中 非重儿子 的剩下所有儿子即为轻儿子</li>
+<li>叶子节点没有重儿子也没有轻儿子</li>
+<li>重边：一个父亲连接他的重儿子的边称为重边</li>
+<li>轻边：剩下的即为轻边</li>
+<li>重链：相邻重边连起来的 连接一条重儿子 的链叫重链</li>
+<li>对于叶子节点，若其为轻儿子，则有一条以自己为起点的长度为1的链 每一条重链以轻儿子为起点</li>
+</ul>
+<h2 id="如何对树进行拆分">如何对树进行拆分</h2>
+<p>先用 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>f</mi><mi>s</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">dfs1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">s</span><span class="mord">1</span></span></span></span> 找出轻重儿子等，然后用 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>f</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">dfs</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">s</span></span></span></span> 序遍历（ <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>f</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">dfs</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">s</span></span></span></span> 序 指 优先遍历重儿子）。</p>
+<h2 id="code">Code</h2>
+<pre><code class="language-cpp">#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;iostream&gt;
+#include &lt;algorithm&gt;
+
+#define ll long long
+
+using namespace std;
+
+const int N = 100010;
+
+struct Node
+{
+    int left, right;
+    ll add; // add -&gt; lazy tag
+    ll dat; // the information which you need to protect;
+}tree[4 * N + 5];
+
+int n, m, root, p;
+int weight[N],ver[N * 2], head[N], edge[2 * N], next_[N * 2], tot;
+int deep[N], id[N], new_weight[N], cnt;
+int son_size[N], top[N], fa[N], son[N]; //top -&gt; the top node of each line fa -&gt; the father node of each node
+// son -&gt; the heavy son of each node 
+
+
+void add(int x, int y)
+{
+    ver[tot] = y, next_[tot] = head[x], head[x] = tot++;
+}
+
+void pushup(int u)
+{
+    tree[u].dat = tree[u &lt;&lt; 1].dat + tree[u &lt;&lt; 1 | 1].dat;
+    tree[u].dat %= p;
+}
+
+void pushdown(int u)
+{
+    if (tree[u].add)
+    {
+        tree[u &lt;&lt; 1].add += tree[u].add;
+        tree[u &lt;&lt; 1].add %= p;
+        tree[u &lt;&lt; 1].dat += tree[u].add * (tree[u &lt;&lt; 1].right - tree[u &lt;&lt; 1].left + 1);
+        tree[u &lt;&lt; 1].dat %= p;
+        tree[u &lt;&lt; 1 | 1].add += tree[u].add;
+        tree[u &lt;&lt; 1 | 1].add %= p;
+        tree[u &lt;&lt; 1 | 1].dat += tree[u].add * (tree[u &lt;&lt; 1 | 1].right - tree[u &lt;&lt; 1 | 1].left + 1);
+        tree[u &lt;&lt; 1 | 1].dat %= p;
+        tree[u].add = 0;
+    }
+}
+
+void build(int u, int l, int r)
+{
+	tree[u].left = l;
+    tree[u].right = r;
+    tree[u].add = 0;
+    if (l == r) 
+    {
+        tree[u].dat = new_weight[r];
+        return ;
+    }
+    
+    int mid = l + r &gt;&gt; 1;
+    build(u &lt;&lt; 1, l, mid);
+    build(u &lt;&lt; 1 | 1, mid + 1, r);
+    pushup(u);
+}
+
+
+
+void modify(int u, int l, int r, int k)
+{
+    if (tree[u].left &gt;= l &amp;&amp; tree[u].right &lt;= r)
+    {
+        tree[u].add += k;
+        tree[u].add %= p;
+        tree[u].dat += k * (tree[u].right - tree[u].left + 1);
+        tree[u].dat %= p;
+        return ;
+    }
+    pushdown(u);
+    int mid = tree[u].left + tree[u].right &gt;&gt; 1;
+    if (l &lt;= mid) modify(u &lt;&lt; 1, l, r, k);
+    if (r &gt; mid) modify(u &lt;&lt; 1 | 1, l, r, k);
+    pushup(u);
+}
+
+ll ask (int u, int l, int r)
+{
+    if (tree[u].left &gt;= l &amp;&amp; tree[u].right &lt;= r) return tree[u].dat;
+    pushdown(u);
+    int mid = tree[u].left + tree[u].right &gt;&gt; 1;
+    ll res = 0;
+    if (l &lt;= mid) res += ask(u &lt;&lt; 1, l, r), res %= p;
+    if (r &gt; mid) res += ask(u &lt;&lt; 1 | 1, l, r), res %= p;
+    return res;
+}
+
+void modify_path(int u, int v, int k)
+{
+    while(top[u] != top[v])
+    {
+        if (deep[top[u]] &lt; deep[top[v]]) swap(u, v);
+        modify(1, id[top[u]], id[u], k);
+        u = fa[top[u]];
+    }
+    if (deep[u] &lt; deep[v]) swap(u, v);
+    modify(1, id[v], id[u], k);
+}
+
+ll ask_path(int u, int v)
+{
+    ll res = 0;
+    while(top[u] != top[v])
+    {
+        if (deep[top[u]] &lt; deep[top[v]]) swap(u, v);
+        res += ask(1, id[top[u]], id[u]);
+        res %= p;
+        u = fa[top[u]];
+    }
+    if (deep[u] &lt; deep[v]) swap(u, v);
+    res += ask(1, id[v], id[u]);
+    return res % p;
+}
+
+void modify_tree(int u, int k)
+{
+    modify(1, id[u], id[u] + son_size[u] - 1, k);
+}
+
+ll ask_tree(int u)
+{
+    return ask(1, id[u], id[u] + son_size[u] - 1);
+}
+
+void dfs1(int u, int father, int depth)
+{
+    deep[u] = depth, fa[u] = father, son_size[u] = 1;
+    for (int i = head[u]; ~i; i = next_[i])
+    {
+        int j = ver[i];
+        if (j == father) continue;
+        dfs1(j, u, depth + 1);
+        son_size[u] += son_size[j];
+        if (son_size[son[u]] &lt; son_size[j]) son[u] = j;
+    }
+}
+
+void dfs2(int u, int t)
+{
+    id[u] = ++cnt, new_weight[cnt] = weight[u], top[u] = t;
+    if (!son[u]) return ;
+    dfs2(son[u], t);
+    for (int i = head[u]; ~i ; i = next_[i])
+    {
+        int j = ver[i];
+        if (j == fa[u] || j == son[u]) continue;
+        dfs2(j, j);
+    }
+}
+
+int main()
+{
+    scanf(&quot;%d%d%d%d&quot;, &amp;n, &amp;m, &amp;root, &amp;p);
+    for (int i = 1; i &lt;= n; i++) scanf(&quot;%d&quot;, &amp;weight[i]), weight[i] %= p;
+    memset(head, -1, sizeof head);
+    for (int i = 0; i &lt; n - 1; i++)
+    {
+        int a, b;
+        scanf(&quot;%d%d&quot;, &amp;a, &amp;b);
+        add(a, b);
+        add(b, a);
+    }
+    dfs1(root, -1, 1);
+    dfs2(root, root);
+    build(1, 1, cnt);
+    while(m--)
+    {
+        int op, u, v, k;
+        scanf(&quot;%d%d&quot;, &amp;op, &amp;u);
+        if (op == 1)
+        {
+            scanf(&quot;%d%d&quot;, &amp;v, &amp;k);
+            modify_path(u, v, k);
+        }
+        else if (op == 2)
+        {
+            scanf(&quot;%d&quot;, &amp;v);
+            printf(&quot;%lld\n&quot;, ask_path(u, v));
+        }
+        else if (op == 3)
+        {
+            scanf(&quot;%d&quot;, &amp;k);
+            modify_tree(u, k);
+        }
+        else 
+        {
+            printf(&quot;%lld\n&quot;, ask_tree(u));
+        }
+    }
+    return 0;
+}
+
+</code></pre>
 
             </div>
             <hr style="width: 80%;">
@@ -1014,7 +1263,7 @@ menulist.eq(i).show();
             <div class="postfooter">
                 <ul class="post-copyright">
                     <li><strong>文章作者：</strong>violet</li>
-            <li><strong>原文链接：</strong>https://evrgardenviolet.github.io/post/about/</li>
+            <li><strong>原文链接：</strong>https://evrgardenviolet.github.io/post/shu-lian-pou-fen/</li>
             <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用<i class="fa fa-fw fa-creative-commons"></i>BY-NC-SA
                 许可协议。转载请注明出处！</li>
             </ul>
@@ -1042,6 +1291,18 @@ menulist.eq(i).show();
         <div id="otherpost">
             
             
+            <a data-pjax class="next-post-pc" href="https://evrgardenviolet.github.io/post/fei-yong-liu/"  style="color: black;">
+                <div id="npcontainer">
+                    
+                    <img src="https://www.imageoss.com/images/2021/11/14/186faed51ba2c844a2.jpg" style="width: 100%;" class="opimg">
+                    
+                    <h4 class="optitle">费用流</h4>
+                </div>
+            </a>
+            <div class="next-post">
+                下一篇 <a  data-pjax href="https://evrgardenviolet.github.io/post/fei-yong-liu/">费用流</a>
+            </div>
+            
         </div>
     </div>
     </div>
@@ -1059,7 +1320,18 @@ menulist.eq(i).show();
     $("#hotnum").attr('id', pl);
 </script>
                     <div class="toc-container">
-                        
+                        <ul class="markdownIt-TOC">
+<li><a href="#%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86">树链剖分</a>
+<ul>
+<li><a href="#%E6%A0%B8%E5%BF%83%E6%80%9D%E6%83%B3">核心思想</a></li>
+<li><a href="#%E9%9C%80%E8%A6%81%E5%A4%84%E7%90%86%E7%9A%84%E9%97%AE%E9%A2%98">需要处理的问题：</a></li>
+<li><a href="#%E6%A6%82%E5%BF%B5">概念</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E5%AF%B9%E6%A0%91%E8%BF%9B%E8%A1%8C%E6%8B%86%E5%88%86">如何对树进行拆分</a></li>
+<li><a href="#code">Code</a></li>
+</ul>
+</li>
+</ul>
+
                     </div>
                     <div class="tog">
                         <div class="toggleContainer">
