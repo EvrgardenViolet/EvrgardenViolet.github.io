@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://evrgardenviolet.github.io/</id>
     <title>violet</title>
-    <updated>2021-11-22T03:38:48.358Z</updated>
+    <updated>2021-12-05T03:15:10.850Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://evrgardenviolet.github.io/"/>
     <link rel="self" href="https://evrgardenviolet.github.io/atom.xml"/>
@@ -10,6 +10,274 @@
     <logo>https://evrgardenviolet.github.io/images/avatar.png</logo>
     <icon>https://evrgardenviolet.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, violet</rights>
+    <entry>
+        <title type="html"><![CDATA[点分治]]></title>
+        <id>https://evrgardenviolet.github.io/post/dian-fen-zhi/</id>
+        <link href="https://evrgardenviolet.github.io/post/dian-fen-zhi/">
+        </link>
+        <updated>2021-12-05T02:36:40.000Z</updated>
+        <summary type="html"><![CDATA[<h1 id="点分治">点分治</h1>
+<h2 id="树上分治">树上分治</h2>
+<p>分为边分治和点分治，其中只有点分治可以保证 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>log</mi><mo>⁡</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">\log n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span></span></span></span> 的复杂度。</p>
+<h2 id="分">分！</h2>
+<ol>
+<li>找重心</li>
+<li>找其他被分开树的重心</li>
+<li>continue</li>
+</ol>
+<h2 id="治">治！</h2>
+<ol>
+<li>额...归并</li>
+<li>无了</li>
+</ol>
+<h2 id="例题1">例题1</h2>
+<p>给定一棵树，树上路径大于 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span> 的路径总数有多少。</p>
+<p><a href="https://www.acwing.com/problem/content/254/">树</a></p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int N = 10010, M = N * 2;
+
+int n, m;
+int head[N], ver[M], weight[M], next_[M], tot;
+bool st[N];
+int p[N], q[N];
+
+void add(int x, int y, int z)
+{
+    ver[tot] = y, weight[tot] = z, next_[tot] = head[x], head[x]  = tot++;
+    return ;
+}
+
+int get_size(int u, int fa) // 求子树大小
+{
+    if (st[u]) return 0;
+    int res = 1;
+    for (int i = head[u]; ~i; i = next_[i])
+    {
+        if (ver[i] != fa) res += get_size(ver[i], u);
+    }
+    return res;
+}
+
+int get_wc(int u, int fa, int idx, int&amp; wc) // 求一个点，是的他的所有子树的大小不大于 n / 2
+{
+    if (st[u]) return 0;
+    int sum = 1, ms = 0;
+    for (int i = head[u]; ~i; i = next_[i])
+    {
+        int j = ver[i];
+        if (j == fa) continue;
+        int t = get_wc(j, u, idx, wc);
+        ms = max(ms, t);
+        sum += t;
+	}
+    ms = max(ms, idx - sum);
+    if (ms &lt;= idx / 2) wc = u;
+    return sum;
+}
+
+void get_dist(int u, int fa, int dist, int&amp; qt) // 子树中点与点之间的距离 
+{
+    if (st[u]) return ;
+    q[qt++] = dist;
+    for (int i = head[u]; ~i; i = next_[i])
+    {
+        if (ver[i] != fa) get_dist(ver[i], u, dist + weight[i], qt);
+    }
+}
+
+int get(int a[], int k)
+{
+    sort(a, a + k);
+    int res = 0;
+    for (int i = k - 1, j = -1; i &gt;= 0; i--) 
+    {
+    	while(j + 1 &lt; i &amp;&amp; a[j + 1] + a[i] &lt;= m) j++;
+    	j = min(j, i - 1);
+    	res += j + 1;
+    }
+    return res;
+}
+
+int calc(int u)
+{
+    if (st[u]) return 0;
+    int res = 0;
+    get_wc(u, -1, get_size(u, -1), u);
+    st[u] = true;  //删除重心 
+    int pt = 0;
+    for (int i = head[u]; ~i; i = next_[i])
+    {
+        int j = ver[i], qt = 0;
+        get_dist(j, -1, weight[i], qt);
+        res -= get(q, qt);
+        for (int k = 0; k &lt; qt; k++)
+        {
+            if (q[k] &lt;= m) res ++;
+            p[pt++] = q[k];
+        }
+    }
+    res += get(p, pt);
+    for (int i = head[u]; ~i; i = next_[i])
+    	res += calc(ver[i]);
+    return res;
+}
+
+int main()
+{
+	while(scanf(&quot;%d%d&quot;, &amp;n, &amp;m), n || m)
+	{
+		memset(st, 0, sizeof st);
+		memset(head, -1, sizeof head);
+		tot = 0;
+		for (int i = 0; i &lt; n - 1; i++)
+		{
+			int a, b, c;
+			scanf(&quot;%d%d%d&quot;, &amp;a, &amp;b, &amp;c);
+			add(a, b, c), add(b, a, c);
+		}
+		printf(&quot;%d\n&quot;, calc(0));
+	}
+	
+	return 0;
+}
+
+</code></pre>
+]]></summary>
+        <content type="html"><![CDATA[<h1 id="点分治">点分治</h1>
+<h2 id="树上分治">树上分治</h2>
+<p>分为边分治和点分治，其中只有点分治可以保证 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>log</mi><mo>⁡</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">\log n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span></span></span></span> 的复杂度。</p>
+<h2 id="分">分！</h2>
+<ol>
+<li>找重心</li>
+<li>找其他被分开树的重心</li>
+<li>continue</li>
+</ol>
+<h2 id="治">治！</h2>
+<ol>
+<li>额...归并</li>
+<li>无了</li>
+</ol>
+<h2 id="例题1">例题1</h2>
+<p>给定一棵树，树上路径大于 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>k</mi></mrow><annotation encoding="application/x-tex">k</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span></span></span></span> 的路径总数有多少。</p>
+<p><a href="https://www.acwing.com/problem/content/254/">树</a></p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+
+const int N = 10010, M = N * 2;
+
+int n, m;
+int head[N], ver[M], weight[M], next_[M], tot;
+bool st[N];
+int p[N], q[N];
+
+void add(int x, int y, int z)
+{
+    ver[tot] = y, weight[tot] = z, next_[tot] = head[x], head[x]  = tot++;
+    return ;
+}
+
+int get_size(int u, int fa) // 求子树大小
+{
+    if (st[u]) return 0;
+    int res = 1;
+    for (int i = head[u]; ~i; i = next_[i])
+    {
+        if (ver[i] != fa) res += get_size(ver[i], u);
+    }
+    return res;
+}
+
+int get_wc(int u, int fa, int idx, int&amp; wc) // 求一个点，是的他的所有子树的大小不大于 n / 2
+{
+    if (st[u]) return 0;
+    int sum = 1, ms = 0;
+    for (int i = head[u]; ~i; i = next_[i])
+    {
+        int j = ver[i];
+        if (j == fa) continue;
+        int t = get_wc(j, u, idx, wc);
+        ms = max(ms, t);
+        sum += t;
+	}
+    ms = max(ms, idx - sum);
+    if (ms &lt;= idx / 2) wc = u;
+    return sum;
+}
+
+void get_dist(int u, int fa, int dist, int&amp; qt) // 子树中点与点之间的距离 
+{
+    if (st[u]) return ;
+    q[qt++] = dist;
+    for (int i = head[u]; ~i; i = next_[i])
+    {
+        if (ver[i] != fa) get_dist(ver[i], u, dist + weight[i], qt);
+    }
+}
+
+int get(int a[], int k)
+{
+    sort(a, a + k);
+    int res = 0;
+    for (int i = k - 1, j = -1; i &gt;= 0; i--) 
+    {
+    	while(j + 1 &lt; i &amp;&amp; a[j + 1] + a[i] &lt;= m) j++;
+    	j = min(j, i - 1);
+    	res += j + 1;
+    }
+    return res;
+}
+
+int calc(int u)
+{
+    if (st[u]) return 0;
+    int res = 0;
+    get_wc(u, -1, get_size(u, -1), u);
+    st[u] = true;  //删除重心 
+    int pt = 0;
+    for (int i = head[u]; ~i; i = next_[i])
+    {
+        int j = ver[i], qt = 0;
+        get_dist(j, -1, weight[i], qt);
+        res -= get(q, qt);
+        for (int k = 0; k &lt; qt; k++)
+        {
+            if (q[k] &lt;= m) res ++;
+            p[pt++] = q[k];
+        }
+    }
+    res += get(p, pt);
+    for (int i = head[u]; ~i; i = next_[i])
+    	res += calc(ver[i]);
+    return res;
+}
+
+int main()
+{
+	while(scanf(&quot;%d%d&quot;, &amp;n, &amp;m), n || m)
+	{
+		memset(st, 0, sizeof st);
+		memset(head, -1, sizeof head);
+		tot = 0;
+		for (int i = 0; i &lt; n - 1; i++)
+		{
+			int a, b, c;
+			scanf(&quot;%d%d%d&quot;, &amp;a, &amp;b, &amp;c);
+			add(a, b, c), add(b, a, c);
+		}
+		printf(&quot;%d\n&quot;, calc(0));
+	}
+	
+	return 0;
+}
+
+</code></pre>
+<!-- more -->
+<!-- more -->
+<!-- more -->
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[闲人の题解P7919]]></title>
         <id>https://evrgardenviolet.github.io/post/xian-ren-noti-jie-p7919/</id>
@@ -1390,250 +1658,6 @@ int main(){
 因为是我第一篇发的题解（前面（一年前）发过只有代码的题解没有过） 也许有不足之处，还请随时指出。<br>
 感谢阅览！</p>
 <!-- more -->
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[树链剖分]]></title>
-        <id>https://evrgardenviolet.github.io/post/shu-lian-pou-fen/</id>
-        <link href="https://evrgardenviolet.github.io/post/shu-lian-pou-fen/">
-        </link>
-        <updated>2021-11-20T02:42:00.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="树链剖分">树链剖分</h1>
-<h2 id="核心思想">核心思想</h2>
-<p>通过给树上的每一个点重新编号，使得我们可以让树上的任意一条路径转化为 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>O</mi><mo>(</mo><mi>log</mi><mo>⁡</mo><mi>n</mi><mo>)</mo></mrow><annotation encoding="application/x-tex">O(\log n)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">n</span><span class="mclose">)</span></span></span></span> 段连续的区间。</p>
-<h2 id="需要处理的问题">需要处理的问题：</h2>
-<ul>
-<li>
-<p>将树从x到y结点最短路径上所有节点的值都加上z</p>
-</li>
-<li>
-<p>求树从x到y结点最短路径上所有节点的值之和</p>
-</li>
-<li>
-<p>将以x为根节点的子树内所有节点值都加上z</p>
-</li>
-<li>
-<p>求以x为根节点的子树内所有节点值之和</p>
-</li>
-</ul>
-<h2 id="概念">概念</h2>
-<ul>
-<li>重儿子：对于每一个非叶子节点，它的儿子中 以那个儿子为根的子树节点数最大的儿子 为该节点的重儿子</li>
-<li>轻儿子：对于每一个非叶子节点，它的儿子中 非重儿子 的剩下所有儿子即为轻儿子</li>
-<li>叶子节点没有重儿子也没有轻儿子</li>
-<li>重边：一个父亲连接他的重儿子的边称为重边</li>
-<li>轻边：剩下的即为轻边</li>
-<li>重链：相邻重边连起来的 连接一条重儿子 的链叫重链</li>
-<li>对于叶子节点，若其为轻儿子，则有一条以自己为起点的长度为1的链 每一条重链以轻儿子为起点</li>
-</ul>
-<h2 id="如何对树进行拆分">如何对树进行拆分</h2>
-<p>先用 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>f</mi><mi>s</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">dfs1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">s</span><span class="mord">1</span></span></span></span> 找出轻重儿子等，然后用 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>f</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">dfs</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">s</span></span></span></span> 序遍历（ <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>d</mi><mi>f</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">dfs</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">d</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">s</span></span></span></span> 序 指 优先遍历重儿子）。</p>
-<h2 id="code">Code</h2>
-<pre><code class="language-cpp">#include &lt;cstdio&gt;
-#include &lt;cstring&gt;
-#include &lt;iostream&gt;
-#include &lt;algorithm&gt;
-
-#define ll long long
-
-using namespace std;
-
-const int N = 100010;
-
-struct Node
-{
-    int left, right;
-    ll add; // add -&gt; lazy tag
-    ll dat; // the information which you need to protect;
-}tree[4 * N + 5];
-
-int n, m, root, p;
-int weight[N],ver[N * 2], head[N], edge[2 * N], next_[N * 2], tot;
-int deep[N], id[N], new_weight[N], cnt;
-int son_size[N], top[N], fa[N], son[N]; //top -&gt; the top node of each line fa -&gt; the father node of each node
-// son -&gt; the heavy son of each node 
-
-
-void add(int x, int y)
-{
-    ver[tot] = y, next_[tot] = head[x], head[x] = tot++;
-}
-
-void pushup(int u)
-{
-    tree[u].dat = tree[u &lt;&lt; 1].dat + tree[u &lt;&lt; 1 | 1].dat;
-    tree[u].dat %= p;
-}
-
-void pushdown(int u)
-{
-    if (tree[u].add)
-    {
-        tree[u &lt;&lt; 1].add += tree[u].add;
-        tree[u &lt;&lt; 1].add %= p;
-        tree[u &lt;&lt; 1].dat += tree[u].add * (tree[u &lt;&lt; 1].right - tree[u &lt;&lt; 1].left + 1);
-        tree[u &lt;&lt; 1].dat %= p;
-        tree[u &lt;&lt; 1 | 1].add += tree[u].add;
-        tree[u &lt;&lt; 1 | 1].add %= p;
-        tree[u &lt;&lt; 1 | 1].dat += tree[u].add * (tree[u &lt;&lt; 1 | 1].right - tree[u &lt;&lt; 1 | 1].left + 1);
-        tree[u &lt;&lt; 1 | 1].dat %= p;
-        tree[u].add = 0;
-    }
-}
-
-void build(int u, int l, int r)
-{
-	tree[u].left = l;
-    tree[u].right = r;
-    tree[u].add = 0;
-    if (l == r) 
-    {
-        tree[u].dat = new_weight[r];
-        return ;
-    }
-    
-    int mid = l + r &gt;&gt; 1;
-    build(u &lt;&lt; 1, l, mid);
-    build(u &lt;&lt; 1 | 1, mid + 1, r);
-    pushup(u);
-}
-
-
-
-void modify(int u, int l, int r, int k)
-{
-    if (tree[u].left &gt;= l &amp;&amp; tree[u].right &lt;= r)
-    {
-        tree[u].add += k;
-        tree[u].add %= p;
-        tree[u].dat += k * (tree[u].right - tree[u].left + 1);
-        tree[u].dat %= p;
-        return ;
-    }
-    pushdown(u);
-    int mid = tree[u].left + tree[u].right &gt;&gt; 1;
-    if (l &lt;= mid) modify(u &lt;&lt; 1, l, r, k);
-    if (r &gt; mid) modify(u &lt;&lt; 1 | 1, l, r, k);
-    pushup(u);
-}
-
-ll ask (int u, int l, int r)
-{
-    if (tree[u].left &gt;= l &amp;&amp; tree[u].right &lt;= r) return tree[u].dat;
-    pushdown(u);
-    int mid = tree[u].left + tree[u].right &gt;&gt; 1;
-    ll res = 0;
-    if (l &lt;= mid) res += ask(u &lt;&lt; 1, l, r), res %= p;
-    if (r &gt; mid) res += ask(u &lt;&lt; 1 | 1, l, r), res %= p;
-    return res;
-}
-
-void modify_path(int u, int v, int k)
-{
-    while(top[u] != top[v])
-    {
-        if (deep[top[u]] &lt; deep[top[v]]) swap(u, v);
-        modify(1, id[top[u]], id[u], k);
-        u = fa[top[u]];
-    }
-    if (deep[u] &lt; deep[v]) swap(u, v);
-    modify(1, id[v], id[u], k);
-}
-
-ll ask_path(int u, int v)
-{
-    ll res = 0;
-    while(top[u] != top[v])
-    {
-        if (deep[top[u]] &lt; deep[top[v]]) swap(u, v);
-        res += ask(1, id[top[u]], id[u]);
-        res %= p;
-        u = fa[top[u]];
-    }
-    if (deep[u] &lt; deep[v]) swap(u, v);
-    res += ask(1, id[v], id[u]);
-    return res % p;
-}
-
-void modify_tree(int u, int k)
-{
-    modify(1, id[u], id[u] + son_size[u] - 1, k);
-}
-
-ll ask_tree(int u)
-{
-    return ask(1, id[u], id[u] + son_size[u] - 1);
-}
-
-void dfs1(int u, int father, int depth)
-{
-    deep[u] = depth, fa[u] = father, son_size[u] = 1;
-    for (int i = head[u]; ~i; i = next_[i])
-    {
-        int j = ver[i];
-        if (j == father) continue;
-        dfs1(j, u, depth + 1);
-        son_size[u] += son_size[j];
-        if (son_size[son[u]] &lt; son_size[j]) son[u] = j;
-    }
-}
-
-void dfs2(int u, int t)
-{
-    id[u] = ++cnt, new_weight[cnt] = weight[u], top[u] = t;
-    if (!son[u]) return ;
-    dfs2(son[u], t);
-    for (int i = head[u]; ~i ; i = next_[i])
-    {
-        int j = ver[i];
-        if (j == fa[u] || j == son[u]) continue;
-        dfs2(j, j);
-    }
-}
-
-int main()
-{
-    scanf(&quot;%d%d%d%d&quot;, &amp;n, &amp;m, &amp;root, &amp;p);
-    for (int i = 1; i &lt;= n; i++) scanf(&quot;%d&quot;, &amp;weight[i]), weight[i] %= p;
-    memset(head, -1, sizeof head);
-    for (int i = 0; i &lt; n - 1; i++)
-    {
-        int a, b;
-        scanf(&quot;%d%d&quot;, &amp;a, &amp;b);
-        add(a, b);
-        add(b, a);
-    }
-    dfs1(root, -1, 1);
-    dfs2(root, root);
-    build(1, 1, cnt);
-    while(m--)
-    {
-        int op, u, v, k;
-        scanf(&quot;%d%d&quot;, &amp;op, &amp;u);
-        if (op == 1)
-        {
-            scanf(&quot;%d%d&quot;, &amp;v, &amp;k);
-            modify_path(u, v, k);
-        }
-        else if (op == 2)
-        {
-            scanf(&quot;%d&quot;, &amp;v);
-            printf(&quot;%lld\n&quot;, ask_path(u, v));
-        }
-        else if (op == 3)
-        {
-            scanf(&quot;%d&quot;, &amp;k);
-            modify_tree(u, k);
-        }
-        else 
-        {
-            printf(&quot;%lld\n&quot;, ask_tree(u));
-        }
-    }
-    return 0;
-}
-
-</code></pre>
 ]]></content>
     </entry>
 </feed>
